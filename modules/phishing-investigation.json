@@ -1,0 +1,252 @@
+{
+  "id": "phishing-investigation",
+  "title": "Phishing Investigation Techniques",
+  "description": "Learn how to investigate phishing campaigns using OSINT techniques to identify threat actors, infrastructure, and tactics.",
+  "difficulty": "Intermediate",
+  "duration": 85,
+  "image": "images/phishing-investigation.jpg",
+  "sections": [
+    {
+      "title": "Introduction to Phishing Investigations",
+      "content": "<p>Phishing remains one of the most common and effective cyber attack vectors, with campaigns ranging from crude mass attempts to sophisticated targeted operations. Open Source Intelligence (OSINT) techniques are invaluable for investigating these attacks, whether you're a security professional, researcher, or concerned individual.</p><p>In this module, you'll learn:</p><ul><li>How to safely analyze phishing emails and messages</li><li>Techniques for investigating phishing infrastructure</li><li>Methods to track and attribute phishing campaigns</li><li>Tools that can assist with phishing investigations</li><li>How to document findings for reporting or sharing</li></ul><p>By the end of this module, you'll have a comprehensive toolkit for investigating phishing attempts and understanding the threat actors behind them.</p><p class='text-red-600 font-bold'>Important Safety Note: Always practice safe handling procedures when investigating phishing content. Never click suspicious links or open attachments on your primary devices or networks.</p>"
+    },
+    {
+      "title": "Understanding Phishing Attack Types",
+      "content": "<p>Before diving into investigation techniques, it's important to understand the various types of phishing attacks you might encounter:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Mass Phishing</h4><ul><li>Broad campaigns targeting large numbers of potential victims</li><li>Often impersonating well-known brands or services</li><li>Typically lower in sophistication but high in volume</li><li>Examples: fake banking alerts, package delivery notifications</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Spear Phishing</h4><ul><li>Targeted attacks aimed at specific individuals or organizations</li><li>Customized content showing research on the target</li><li>Higher sophistication and success rate</li><li>Examples: personalized business proposals, targeted employee communications</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Whaling</h4><ul><li>Highly targeted phishing aimed at executives or high-value targets</li><li>Often involves detailed reconnaissance of the target</li><li>May impersonate trusted contacts or authorities</li><li>Examples: fake board communications, executive team messages</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Smishing and Vishing</h4><ul><li>SMS/text message phishing (smishing)</li><li>Voice phishing via phone calls (vishing)</li><li>Often creates urgency to bypass critical thinking</li><li>Examples: fake security alerts, bank fraud warnings</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Clone Phishing</h4><ul><li>Duplicates of legitimate messages with malicious elements</li><li>Often claims to be an update or resend of a real communication</li><li>Can be highly convincing</li><li>Examples: modified versions of real invoices or shared documents</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Business Email Compromise (BEC)</h4><ul><li>Sophisticated attacks targeting business processes</li><li>Often focuses on financial transactions</li><li>May involve account compromise or domain spoofing</li><li>Examples: fake invoice payments, wire transfer requests</li></ul><p>Understanding these distinctions helps determine the appropriate investigation approach and the likely sophistication of the threat actor.</p>"
+    },
+    {
+      "title": "Phishing Types Quiz",
+      "type": "matching",
+      "instruction": "Match each phishing attack type with its most distinctive characteristic:",
+      "pairs": [
+        {
+          "term": "Mass Phishing",
+          "definition": "High volume attacks with generic content targeting broad audiences"
+        },
+        {
+          "term": "Spear Phishing",
+          "definition": "Customized attacks targeting specific individuals based on research"
+        },
+        {
+          "term": "Whaling",
+          "definition": "Attacks specifically targeting executives or high-value individuals"
+        },
+        {
+          "term": "Smishing",
+          "definition": "Phishing conducted via SMS or text messages"
+        },
+        {
+          "term": "Clone Phishing",
+          "definition": "Duplicating legitimate messages with malicious modifications"
+        },
+        {
+          "term": "Business Email Compromise",
+          "definition": "Sophisticated attacks targeting business financial processes"
+        }
+      ],
+      "shuffle": true,
+      "successMessage": "Excellent! You've correctly matched each phishing type with its distinctive characteristic.",
+      "incorrectMessage": "Some matches are incorrect. Review the different phishing types and their characteristics."
+    },
+    {
+      "title": "Safe Handling of Phishing Content",
+      "content": "<p>Before investigating any suspected phishing content, it's crucial to establish safe handling procedures to avoid accidentally compromising your systems or data:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Setting Up a Safe Environment</h4><ul><li><strong>Isolated Analysis VM</strong>: Use a dedicated virtual machine with no sensitive data</li><li><strong>Network Isolation</strong>: Consider disconnecting from the internet or using a separate network</li><li><strong>Sandbox Tools</strong>: Use online services like Any.Run or Hybrid Analysis for initial assessment</li><li><strong>Disposable Email Accounts</strong>: Create separate accounts for receiving suspicious content</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Email Handling Safety</h4><ul><li>Never open suspicious attachments on your primary devices</li><li>View emails in plain text mode to avoid auto-loading content</li><li>Disable automatic downloading of images and external content</li><li>Use email header analysis tools rather than clicking links</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Link Investigation Safety</h4><ul><li>Use URL expansion services to see where shortened links lead</li><li>Analyze URLs without visiting them using URL scanning services</li><li>If you must visit a suspicious site, use a disposable browser in a VM</li><li>Consider using specialized tools like URL2PNG to capture site content safely</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Attachment Handling</h4><ul><li>Upload suspicious attachments to services like VirusTotal for analysis</li><li>Use file hash values to check if malware is already known</li><li>If you must open files, do so in a secure sandbox environment</li><li>Be especially cautious with documents containing macros</li></ul><p>Remember that even experienced security professionals can make mistakes. Always err on the side of caution when handling potential phishing content.</p>"
+    },
+    {
+      "title": "Safe Handling Scenario",
+      "type": "scenario",
+      "scenario": "You've received a suspicious email that appears to be from your bank, claiming there's an urgent security issue with your account. The email contains an attachment named 'Account_Security_Update.docx' and a link to what looks like your bank's website. You want to investigate whether this is a phishing attempt.",
+      "question": "What would be the safest first step in investigating this potential phishing email?",
+      "options": [
+        "Open the attachment in a secure VM to see what it contains",
+        "Click the link using a private browsing window to check if the site looks legitimate",
+        "Forward the email to your IT security team or bank's security contact",
+        "Analyze the email headers and inspect the link URL without clicking it"
+      ],
+      "correctAnswer": "Analyze the email headers and inspect the link URL without clicking it",
+      "explanation": "The safest first step is to analyze the email headers and inspect the URL without clicking it. This allows you to gather initial evidence about the sender and destination without risking infection or compromising credentials. Email headers can reveal the true source, and URL inspection can show if the link is pointing to a suspicious domain rather than your actual bank. Opening attachments, even in a VM, carries risk and should only be done after initial analysis suggests it's necessary. Forwarding to security teams is good practice but should include your initial analysis.",
+      "shuffle": true
+    },
+    {
+      "title": "Email Header Analysis",
+      "content": "<p>Email headers contain valuable information that can help identify phishing attempts and trace their origins. Here's how to extract and analyze this information:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Accessing Email Headers</h4><ul><li><strong>Gmail</strong>: Open the email > Click the three dots > 'Show original'</li><li><strong>Outlook</strong>: Open the email > File > Properties > 'Internet headers'</li><li><strong>Apple Mail</strong>: Open the email > View > 'Show all headers'</li><li><strong>Thunderbird</strong>: Open the email > View > Headers > 'All'</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Key Header Fields to Analyze</h4><ul><li><strong>From</strong>: The displayed sender name and email address</li><li><strong>Return-Path</strong>: Where replies will actually go (may differ from From)</li><li><strong>Received</strong>: Chain of servers that handled the email (read bottom to top)</li><li><strong>X-Originating-IP</strong>: IP address where the email originated</li><li><strong>Authentication-Results</strong>: Results of SPF, DKIM, and DMARC checks</li><li><strong>Message-ID</strong>: Unique identifier for the email</li><li><strong>X-Mailer</strong> or <strong>User-Agent</strong>: Software used to send the email</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Common Red Flags in Headers</h4><ul><li>Mismatched sender domains in From and Return-Path</li><li>Failed SPF, DKIM, or DMARC authentication</li><li>Suspicious originating IP addresses (e.g., from unexpected countries)</li><li>Unusual routing through servers not associated with the claimed sender</li><li>Inconsistencies between the Message-ID format and claimed sender</li><li>Headers showing the email was sent from a different service than claimed</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Useful Header Analysis Tools</h4><ul><li><a href='https://mha.azurewebsites.net/' class='text-blue-600 hover:underline'>Message Header Analyzer</a></li><li><a href='https://toolbox.googleapps.com/apps/messageheader/' class='text-blue-600 hover:underline'>Google's Email Header Tool</a></li><li><a href='https://emailheaders.net/' class='text-blue-600 hover:underline'>EmailHeaders.net</a></li></ul><p>Email header analysis is often the first and safest step in investigating a potential phishing email, as it can reveal deception without requiring you to interact with malicious content.</p>"
+    },
+    {
+      "title": "Email Header Analysis Exercise",
+      "type": "fill-blanks",
+      "instruction": "Fill in the blanks with the appropriate email header fields:",
+      "text": "When analyzing a suspicious email, the [blank] field shows the chain of servers that handled the message and should be read from bottom to top. The [blank] field indicates where replies will actually go, which may differ from the displayed sender address. To check if the email passed authentication checks, you should examine the [blank] field. The [blank] field can reveal the IP address where the email originated, which is useful for geolocation. A mismatch between the domains in the From field and the [blank] field is a common indicator of phishing.",
+      "blanks": ["Received", "Return-Path", "Authentication-Results", "X-Originating-IP", "Return-Path"],
+      "acceptableAnswers": [
+        ["Received", "Received:"],
+        ["Return-Path", "Return-Path:"],
+        ["Authentication-Results", "Authentication-Results:"],
+        ["X-Originating-IP", "X-Originating-IP:", "Originating-IP"],
+        ["Return-Path", "Return-Path:", "envelope sender"]
+      ],
+      "successMessage": "Excellent! You've correctly identified these important email header fields.",
+      "incorrectMessage": "Some answers need revision. Review the email header fields section."
+    },
+    {
+      "title": "URL and Link Analysis",
+      "content": "<p>Phishing emails typically contain malicious links designed to steal credentials or deliver malware. Analyzing these URLs can reveal valuable information about the phishing campaign:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>URL Structure Analysis</h4><p>Break down the URL into its components:</p><ul><li><strong>Protocol</strong>: http:// or https:// (lack of https:// can be a red flag)</li><li><strong>Subdomain</strong>: Often used to make URLs look legitimate (e.g., paypal.malicious-site.com)</li><li><strong>Domain</strong>: The core identity of the website</li><li><strong>Path</strong>: The specific resource being requested</li><li><strong>Query Parameters</strong>: Data being sent to the server (may contain tracking IDs)</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Common URL Deception Techniques</h4><ul><li><strong>Typosquatting</strong>: Using domains similar to legitimate ones (paypa1.com vs paypal.com)</li><li><strong>Subdomain Abuse</strong>: Using the legitimate name as a subdomain (paypal.evil.com)</li><li><strong>Homograph Attacks</strong>: Using similar-looking characters (paypal.com vs pаypal.com with Cyrillic 'а')</li><li><strong>URL Shorteners</strong>: Hiding the true destination (bit.ly, tinyurl.com)</li><li><strong>Misleading Directories</strong>: Using paths that seem legitimate (/secure/login/)</li><li><strong>Credential Stuffing in URL</strong>: Adding fake credentials (https://username:password@evil.com)</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Safe URL Analysis Tools</h4><ul><li><a href='https://urlscan.io/' class='text-blue-600 hover:underline'>URLScan.io</a>: Scans and analyzes websites</li><li><a href='https://www.virustotal.com/' class='text-blue-600 hover:underline'>VirusTotal</a>: Checks URLs against multiple security engines</li><li><a href='https://www.expandurl.net/' class='text-blue-600 hover:underline'>ExpandURL</a>: Expands shortened URLs without visiting them</li><li><a href='https://www.url2png.com/' class='text-blue-600 hover:underline'>URL2PNG</a>: Captures screenshots of websites safely</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>What to Look For</h4><ul><li>Recently registered domains (check WHOIS data)</li><li>Mismatches between the link text and actual URL</li><li>Unusual TLDs (.xyz, .tk, etc.) for well-known brands</li><li>IP addresses instead of domain names</li><li>Excessive subdomains or long, random domain names</li><li>HTTP instead of HTTPS for sites that should be secure</li></ul><p>Always analyze URLs without clicking them first, and use safe browsing tools if you need to investigate the destination.</p>"
+    },
+    {
+      "title": "URL Deception Quiz",
+      "type": "quiz",
+      "question": "Which of the following URLs is most likely legitimate (not phishing)?",
+      "options": [
+        "https://paypal-secure-login.com/account/verification",
+        "http://paypal.com.secure-login.info/account",
+        "https://accounts.paypal.com/signin?country=US",
+        "https://paypal.com@malicious-site.com/login"
+      ],
+      "correctAnswer": "https://accounts.paypal.com/signin?country=US",
+      "explanation": "The correct URL (https://accounts.paypal.com/signin?country=US) has the legitimate domain (paypal.com) as the main domain, not as a subdomain. It uses HTTPS and has a reasonable path structure. The other options show common deception techniques: the first uses a hyphenated domain that includes the brand name but isn't the official domain; the second uses the legitimate name as a subdomain of 'secure-login.info'; and the fourth uses the credential stuffing technique where 'paypal.com' appears before the @ symbol but the actual destination is 'malicious-site.com'.",
+      "shuffle": true,
+      "hints": [
+        "Look carefully at the main domain in each URL (what comes before the TLD like .com)",
+        "Check if the brand name is in the domain or just a subdomain",
+        "Be wary of special characters that might be used to deceive"
+      ]
+    },
+    {
+      "title": "Domain and Infrastructure Analysis",
+      "content": "<p>Investigating the infrastructure behind phishing sites can reveal valuable information about the threat actors and potentially link multiple campaigns together:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Domain Registration Analysis</h4><ul><li><strong>WHOIS Data</strong>: Check registration details (though often privacy-protected)</li><li><strong>Creation Date</strong>: Phishing domains are typically newly registered</li><li><strong>Registrar</strong>: Some registrars are favored by threat actors</li><li><strong>Name Servers</strong>: Can link to other malicious domains</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>IP and Hosting Analysis</h4><ul><li><strong>IP Address</strong>: Identify the hosting provider and location</li><li><strong>Hosting Provider</strong>: Some providers are known for lax security policies</li><li><strong>Autonomous System Number (ASN)</strong>: Identifies the network operator</li><li><strong>Other Sites on Same IP</strong>: May reveal related phishing campaigns</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>SSL Certificate Analysis</h4><ul><li><strong>Certificate Authority</strong>: Phishing sites often use free certificates</li><li><strong>Issue Date</strong>: Typically very recent for phishing sites</li><li><strong>Subject Alternative Names</strong>: May reveal related domains</li><li><strong>Organization Information</strong>: Usually missing or fake for phishing sites</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Website Content Analysis</h4><ul><li><strong>Source Code</strong>: May contain comments or artifacts from the developer</li><li><strong>Copied Content</strong>: Often directly lifted from legitimate sites</li><li><strong>Form Submission Targets</strong>: Where stolen data is sent</li><li><strong>Tracking Codes</strong>: May be reused across campaigns</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Useful Infrastructure Analysis Tools</h4><ul><li><a href='https://whois.domaintools.com/' class='text-blue-600 hover:underline'>DomainTools</a>: Comprehensive domain intelligence</li><li><a href='https://securitytrails.com/' class='text-blue-600 hover:underline'>SecurityTrails</a>: Historical DNS and domain data</li><li><a href='https://censys.io/' class='text-blue-600 hover:underline'>Censys</a>: Internet-wide scanning data</li><li><a href='https://www.shodan.io/' class='text-blue-600 hover:underline'>Shodan</a>: Search engine for internet-connected devices</li><li><a href='https://crt.sh/' class='text-blue-600 hover:underline'>crt.sh</a>: Certificate transparency search</li></ul><p>Infrastructure analysis can help identify patterns across multiple phishing campaigns and provide indicators for blocking or monitoring similar attacks in the future.</p>"
+    },
+    {
+      "title": "Infrastructure Analysis Exercise",
+      "type": "ordering",
+      "instruction": "Arrange the following steps in a logical order for investigating the infrastructure behind a phishing domain:",
+      "items": [
+        "Identify the domain name from the phishing URL",
+        "Perform a WHOIS lookup to check registration details",
+        "Resolve the domain to its IP address",
+        "Look up the hosting provider and location of the IP",
+        "Check for other domains hosted on the same IP address",
+        "Analyze the SSL certificate for additional information",
+        "Examine the website's source code for clues about the operator"
+      ],
+      "correctOrder": [0, 1, 2, 3, 4, 5, 6],
+      "shuffle": true,
+      "successMessage": "Well done! You've correctly ordered the steps for investigating phishing infrastructure.",
+      "incorrectMessage": "The order isn't quite right. Think about the logical progression of an infrastructure investigation."
+    },
+    {
+      "title": "Malware and Attachment Analysis",
+      "content": "<p>Phishing emails often contain malicious attachments designed to deliver malware or steal credentials. Analyzing these attachments safely can provide valuable insights:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Common Malicious Attachment Types</h4><ul><li><strong>Office Documents with Macros</strong>: .doc, .xls, .ppt files with malicious code</li><li><strong>PDF Files with Embedded Scripts</strong>: May contain JavaScript or launch external content</li><li><strong>Archive Files</strong>: .zip, .rar, .7z files that may bypass security filters</li><li><strong>JavaScript Files</strong>: .js files that execute when opened</li><li><strong>Executable Files</strong>: .exe, .bat, .com files that run malicious code</li><li><strong>Disk Images</strong>: .iso files that can bypass some security controls</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Safe Analysis Approaches</h4><ul><li><strong>File Hash Checking</strong>: Generate and check file hashes against threat databases</li><li><strong>Sandbox Analysis</strong>: Run files in isolated environments to observe behavior</li><li><strong>Static Analysis</strong>: Examine file contents without executing them</li><li><strong>Metadata Extraction</strong>: Check document properties for creator information</li><li><strong>String Extraction</strong>: Pull out readable text that may contain clues</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Useful Attachment Analysis Tools</h4><ul><li><a href='https://www.virustotal.com/' class='text-blue-600 hover:underline'>VirusTotal</a>: Scans files with multiple antivirus engines</li><li><a href='https://any.run/' class='text-blue-600 hover:underline'>ANY.RUN</a>: Interactive malware analysis sandbox</li><li><a href='https://www.hybrid-analysis.com/' class='text-blue-600 hover:underline'>Hybrid Analysis</a>: Free malware analysis service</li><li><a href='https://www.joesandbox.com/' class='text-blue-600 hover:underline'>Joe Sandbox</a>: Advanced malware analysis platform</li><li><a href='https://github.com/decalage2/oletools' class='text-blue-600 hover:underline'>Oletools</a>: Tools to analyze Microsoft Office files</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>What to Look For</h4><ul><li>Macros or scripts that execute automatically</li><li>Suspicious API calls or commands</li><li>Connections to external servers or URLs</li><li>Obfuscated code designed to hide functionality</li><li>Techniques to evade detection or analysis</li><li>Creator information in document metadata</li></ul><p>Remember that malware analysis requires specialized knowledge and safe environments. When in doubt, consult with security professionals before attempting to analyze suspicious files.</p>"
+    },
+    {
+      "title": "Malicious Attachment Scenario",
+      "type": "scenario",
+      "scenario": "You've received an email claiming to be an invoice from a supplier. The email contains an attachment named 'Invoice_August2023.xlsx' and urges you to open it to verify the charges. You suspect this might be a phishing attempt with a malicious attachment.",
+      "question": "What would be the most appropriate first step to safely analyze this attachment?",
+      "options": [
+        "Open the file in Microsoft Excel with macros disabled to see if it looks legitimate",
+        "Calculate the file's hash value and check it against VirusTotal or similar services",
+        "Forward the email and attachment to your IT security team for analysis",
+        "Use a hex editor to examine the file's contents without executing it"
+      ],
+      "correctAnswer": "Calculate the file's hash value and check it against VirusTotal or similar services",
+      "explanation": "Calculating the file's hash (such as SHA-256) and checking it against VirusTotal is the safest first step. This allows you to see if the file has already been identified as malicious without risking execution of the file. VirusTotal will scan the file with multiple antivirus engines and provide information about any detected threats. Opening the file, even with macros disabled, carries risk as there could be other exploit mechanisms. Forwarding to IT security is good practice but should include your initial analysis. Using a hex editor requires specialized knowledge to interpret the results effectively.",
+      "shuffle": true
+    },
+    {
+      "title": "Tracking Phishing Campaigns",
+      "content": "<p>Individual phishing attempts are often part of larger campaigns. Tracking these campaigns can help identify patterns, attribute attacks to specific threat actors, and anticipate future threats:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Campaign Identification Indicators</h4><ul><li><strong>Similar Email Themes</strong>: Subject lines, content patterns, or sender personas</li><li><strong>Infrastructure Reuse</strong>: Same domains, IPs, hosting providers, or registrars</li><li><strong>Malware Similarities</strong>: Same malware families, delivery methods, or C2 servers</li><li><strong>Targeting Patterns</strong>: Similar victim profiles or industries</li><li><strong>Temporal Patterns</strong>: Specific times of day or days of the week</li><li><strong>Visual Templates</strong>: Reused email layouts, logos, or phishing page designs</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Campaign Tracking Techniques</h4><ul><li><strong>IOC Collection</strong>: Gather Indicators of Compromise from each attack</li><li><strong>Timeline Analysis</strong>: Map attacks chronologically to identify evolution</li><li><strong>Pattern Recognition</strong>: Identify common elements across multiple attacks</li><li><strong>Threat Intelligence Sharing</strong>: Collaborate with other researchers and platforms</li><li><strong>OSINT Monitoring</strong>: Track mentions of campaigns on security forums and social media</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Attribution Challenges</h4><ul><li>Threat actors deliberately use misdirection techniques</li><li>Infrastructure is often shared, rented, or compromised</li><li>Tools and techniques are frequently copied between groups</li><li>False flags may be planted to implicate others</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Useful Campaign Tracking Resources</h4><ul><li><a href='https://otx.alienvault.com/' class='text-blue-600 hover:underline'>AlienVault OTX</a>: Open Threat Exchange for IOCs</li><li><a href='https://talosintelligence.com/' class='text-blue-600 hover:underline'>Cisco Talos Intelligence</a>: Threat research and advisories</li><li><a href='https://www.phishtank.com/' class='text-blue-600 hover:underline'>PhishTank</a>: Community-verified phishing database</li><li><a href='https://www.threatminer.org/' class='text-blue-600 hover:underline'>ThreatMiner</a>: Threat intelligence portal</li></ul><p>Tracking campaigns over time can provide valuable context for individual phishing attempts and help organizations prepare for future attacks from the same threat actors.</p>"
+    },
+    {
+      "title": "Campaign Tracking Exercise",
+      "type": "true-false",
+      "statement": "If two phishing emails use different domain names but the same IP address, they are definitely part of the same campaign run by the same threat actor.",
+      "correctAnswer": false,
+      "explanation": "While shared infrastructure like the same IP address is an important indicator that phishing emails might be related, it's not definitive proof that they're part of the same campaign or run by the same threat actor. Many different threat actors may use the same hosting providers, compromised servers, or bulletproof hosting services. Additionally, IP addresses can be reassigned over time. Proper campaign tracking requires analyzing multiple indicators including timing, targeting patterns, email content, malware characteristics, and broader infrastructure beyond just IP addresses. Attribution requires careful analysis of multiple data points and should avoid jumping to conclusions based on single indicators.",
+      "successMessage": "Correct! Shared infrastructure is an important clue but not definitive proof of the same campaign or actor.",
+      "incorrectMessage": "That's not correct. Shared infrastructure alone is not sufficient to definitively link campaigns to the same threat actor."
+    },
+    {
+      "title": "Reporting and Sharing Findings",
+      "content": "<p>Properly documenting and sharing your phishing investigation findings helps protect others and contributes to the security community's knowledge base:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Effective Documentation</h4><ul><li>Record all indicators of compromise (IOCs)</li><li>Document your analysis methodology and tools used</li><li>Capture screenshots (with sensitive information redacted)</li><li>Maintain chain of evidence if legal action is possible</li><li>Note the timeline of the attack and your investigation</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Key Elements to Include in Reports</h4><ul><li><strong>Executive Summary</strong>: Brief overview for non-technical audiences</li><li><strong>Technical Details</strong>: Comprehensive analysis for security teams</li><li><strong>Indicators of Compromise</strong>: Domains, IPs, file hashes, email addresses</li><li><strong>Attack Flow</strong>: How the phishing attack was executed</li><li><strong>Potential Impact</strong>: What could happen if the attack succeeded</li><li><strong>Mitigation Recommendations</strong>: How to protect against similar attacks</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Where to Report Phishing</h4><ul><li><strong>Internal Security Teams</strong>: Your organization's IT security department</li><li><strong>Impersonated Organizations</strong>: The legitimate company being impersonated</li><li><strong>Email Providers</strong>: Gmail, Outlook, Yahoo, etc. have reporting mechanisms</li><li><strong>Domain Registrars and Hosting Providers</strong>: Can take down malicious sites</li><li><strong>Anti-Phishing Working Group</strong>: <a href='https://apwg.org/reportphishing/' class='text-blue-600 hover:underline'>APWG Reporting</a></li><li><strong>Government Agencies</strong>: FBI IC3, FTC, national CERTs</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Sharing with the Community</h4><ul><li><strong>Threat Intelligence Platforms</strong>: AlienVault OTX, MISP</li><li><strong>Security Blogs and Forums</strong>: Share analysis (with appropriate redactions)</li><li><strong>Information Sharing Groups</strong>: ISACs, industry groups</li><li><strong>Social Media</strong>: Twitter/X security community, LinkedIn</li></ul><p>When sharing findings, always consider privacy implications and legal restrictions. Redact personal information and be careful not to inadvertently help threat actors improve their techniques.</p>"
+    },
+    {
+      "title": "Reporting Exercise",
+      "type": "short-answer",
+      "question": "You've investigated a sophisticated phishing campaign targeting your industry. Draft a brief but comprehensive summary of your findings that could be shared with your organization's security team and potentially with industry partners. Include the key elements that should be in such a report.",
+      "minLength": 200,
+      "maxLength": 1000,
+      "keyElements": ["indicators of compromise", "attack methodology", "technical details", "mitigation recommendations", "impact assessment"],
+      "sampleAnswer": "PHISHING CAMPAIGN ANALYSIS SUMMARY\n\nExecutive Summary:\nWe've identified a sophisticated phishing campaign targeting financial departments across our industry sector. The campaign uses invoice-themed emails with malicious Excel attachments containing macros that deploy information-stealing malware. The attack appears to be targeted rather than opportunistic, with customized emails referencing legitimate business relationships.\n\nAttack Methodology:\nThe threat actor sends emails impersonating vendors with existing relationships to the targeted companies. Emails contain Excel attachments named with the pattern \"Invoice_[Month][Year].xlsx\" that contain macros downloading a second-stage payload. When executed, this payload exfiltrates credentials from browsers and financial software.\n\nTechnical Details:\nIndicators of Compromise (IOCs):\n- Email sender domains: invoice-secure[.]com, billing-dept[.]info\n- Attachment hashes: 5f2b7c6d9e8a1b3c4d5e6f7a8b9c0d1e2f3a4b5c (SHA-256)\n- C2 domains: data-collection[.]xyz, secure-invoice-verify[.]com\n- IP addresses: 192.0.2.123, 198.51.100.456\n\nThe Excel documents use heavily obfuscated VBA macros that execute PowerShell commands to download a .NET payload from the C2 servers. This payload is a variant of the AgentTesla infostealer with modifications to target specific financial software.\n\nImpact Assessment:\nSuccessful compromise could lead to theft of financial credentials, unauthorized wire transfers, and potential access to customer financial data. The targeted nature suggests the attackers have specific financial goals rather than opportunistic theft.\n\nMitigation Recommendations:\n1. Block the identified domains and IPs at the firewall and email gateway\n2. Deploy the attached YARA rules to detect the malicious attachments\n3. Alert financial staff about the specific threat and indicators\n4. Implement additional verification for wire transfers and invoice payments\n5. Review logs for indicators of previous compromise from these IOCs\n\nWe continue to monitor for new variants of this campaign and will update this advisory as new information becomes available.",
+      "hints": [
+        "Include specific technical details that would help security teams identify and block the threat",
+        "Consider both the technical aspects and the business impact of the phishing campaign",
+        "Think about what actionable recommendations would help protect against this threat"
+      ]
+    },
+    {
+      "title": "Advanced Phishing Investigation Techniques",
+      "content": "<p>As you become more experienced with basic phishing investigations, you can incorporate these advanced techniques to gain deeper insights:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Malware Reverse Engineering</h4><ul><li>Disassemble malicious code to understand its functionality</li><li>Identify command and control infrastructure</li><li>Discover persistence mechanisms and anti-analysis techniques</li><li>Extract hardcoded credentials or encryption keys</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Network Traffic Analysis</h4><ul><li>Capture and analyze traffic generated by phishing sites or malware</li><li>Identify additional infrastructure not visible in static analysis</li><li>Understand data exfiltration methods and formats</li><li>Detect encrypted communication channels</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>OSINT for Threat Actor Profiling</h4><ul><li>Track threat actors across forums and marketplaces</li><li>Monitor paste sites for leaked phishing kits or credentials</li><li>Search code repositories for related malicious code</li><li>Analyze cryptocurrency transactions linked to campaigns</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Phishing Kit Analysis</h4><ul><li>Identify phishing kit signatures and common components</li><li>Extract exfiltration email addresses or drop zones</li><li>Find developer artifacts that may reveal identities</li><li>Understand evasion techniques used to avoid detection</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Sock Puppet Investigation</h4><ul><li>Create research personas to investigate threat communities</li><li>Join forums where phishing tools and services are traded</li><li>Monitor threat actor communications and advertisements</li><li>Track new phishing techniques being developed</li></ul><p>These advanced techniques require specialized skills and tools, as well as careful attention to legal and ethical boundaries. Always ensure you have proper authorization before conducting advanced investigations, especially those involving active interaction with threat infrastructure or communities.</p>"
+    },
+    {
+      "title": "Advanced Techniques Quiz",
+      "type": "quiz",
+      "question": "Which advanced investigation technique would be most appropriate for identifying additional phishing campaigns run by the same threat actor?",
+      "options": [
+        "Detailed network traffic analysis of infected systems",
+        "Reverse engineering the malware payload to find hardcoded credentials",
+        "Extracting and analyzing exfiltration email addresses from phishing kits",
+        "Performing memory forensics on compromised endpoints"
+      ],
+      "correctAnswer": "Extracting and analyzing exfiltration email addresses from phishing kits",
+      "explanation": "Extracting exfiltration email addresses from phishing kits is the most direct way to link different phishing campaigns to the same threat actor. Threat actors often reuse the same email addresses to receive stolen credentials across multiple campaigns. These addresses can be searched for in other phishing kits or in threat intelligence databases to identify additional campaigns. While the other techniques are valuable for understanding the technical aspects of an attack, they're less effective for specifically linking campaigns to the same actor.",
+      "shuffle": true,
+      "hints": [
+        "Think about what information would directly connect different campaigns to the same person",
+        "Consider which elements threat actors might reuse across different phishing operations"
+      ]
+    },
+    {
+      "title": "Ethical and Legal Considerations",
+      "content": "<p>Phishing investigations must be conducted within ethical and legal boundaries. Here are important considerations to keep in mind:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Legal Boundaries</h4><ul><li>Understand computer crime laws in your jurisdiction</li><li>Ensure you have proper authorization before accessing systems</li><li>Be aware of privacy laws regarding personal data</li><li>Consider international legal implications for cross-border investigations</li><li>Document your actions in case legal questions arise</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Ethical Considerations</h4><ul><li>Avoid actions that could harm innocent third parties</li><li>Don't engage in retaliatory hacking or \"hack back\" activities</li><li>Protect the privacy of potential victims</li><li>Consider the potential consequences of publishing your findings</li><li>Follow responsible disclosure practices</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Common Pitfalls to Avoid</h4><ul><li><strong>Exceeding Authorization</strong>: Going beyond what you're permitted to investigate</li><li><strong>Contaminating Evidence</strong>: Making changes that could compromise potential legal proceedings</li><li><strong>Alerting Attackers</strong>: Tipping off threat actors that they're being investigated</li><li><strong>False Attribution</strong>: Making definitive claims without sufficient evidence</li><li><strong>Collateral Damage</strong>: Harming legitimate services during your investigation</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Best Practices</h4><ul><li>Obtain written permission before investigating systems you don't own</li><li>Maintain detailed logs of all investigative actions</li><li>Consult with legal counsel for complex investigations</li><li>Use passive reconnaissance techniques when possible</li><li>Focus on defense and protection rather than offensive measures</li></ul><p>Remember that even well-intentioned investigations can cross legal or ethical lines if not conducted carefully. When in doubt, consult with legal and security professionals before proceeding.</p>"
+    },
+    {
+      "title": "Ethical Scenario",
+      "type": "scenario",
+      "scenario": "During your investigation of a phishing campaign, you discover that the phishing kit is sending stolen credentials to an email address. You have the technical ability to access this email account by exploiting a vulnerability in the webmail service the attacker is using. Accessing this account would potentially reveal the identities of hundreds of victims and possibly other phishing campaigns run by the same threat actor.",
+      "question": "What would be the most ethical and legally appropriate action to take?",
+      "options": [
+        "Access the email account to identify victims and notify them immediately",
+        "Exploit the vulnerability to delete the stolen credentials and disrupt the campaign",
+        "Report the email address and vulnerability to law enforcement and the email provider",
+        "Use the vulnerability to set up monitoring of the account to gather intelligence on the threat actor"
+      ],
+      "correctAnswer": "Report the email address and vulnerability to law enforcement and the email provider",
+      "explanation": "Reporting to law enforcement and the email provider is the most ethical and legally appropriate action. Accessing the account without authorization, even with good intentions, likely violates computer crime laws in most jurisdictions. Similarly, deleting data or setting up monitoring would constitute unauthorized access. Law enforcement has the legal authority to obtain warrants for such access, and the email provider can address the vulnerability. This approach respects legal boundaries while still working toward protecting victims and stopping the threat actor.",
+      "shuffle": true
+    },
+    {
+      "title": "Resources for Further Learning",
+      "content": "<p>To continue developing your phishing investigation skills, here are valuable resources:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Books and Publications</h4><ul><li>\"Phishing Dark Waters\" by Christopher Hadnagy and Michele Fincher</li><li>\"Practical Malware Analysis\" by Michael Sikorski and Andrew Honig</li><li>\"Open Source Intelligence Techniques\" by Michael Bazzell</li><li>SANS Digital Forensics and Incident Response Blog</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Training and Courses</h4><ul><li><a href='https://www.sans.org/cyber-security-courses/advanced-open-source-intelligence-gathering-analysis/' class='text-blue-600 hover:underline'>SANS SEC487: Open-Source Intelligence Gathering and Analysis</a></li><li><a href='https://www.sans.org/cyber-security-courses/reverse-engineering-malware-malware-analysis-tools-techniques/' class='text-blue-600 hover:underline'>SANS FOR610: Reverse-Engineering Malware</a></li><li><a href='https://www.offensive-security.com/awae-oswe/' class='text-blue-600 hover:underline'>Offensive Security Web Expert (OSWE)</a></li><li>Phishing-specific training on platforms like Udemy and Pluralsight</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Tools and Platforms</h4><ul><li><a href='https://github.com/t4d/PhishingKitHunter' class='text-blue-600 hover:underline'>PhishingKitHunter</a>: Tool for finding and analyzing phishing kits</li><li><a href='https://github.com/neonprimetime/PhishReporter' class='text-blue-600 hover:underline'>PhishReporter</a>: Automated phishing analysis tool</li><li><a href='https://github.com/duo-labs/phish-collect' class='text-blue-600 hover:underline'>Phish-Collect</a>: Tool for collecting and analyzing phishing sites</li><li><a href='https://mxtoolbox.com/' class='text-blue-600 hover:underline'>MXToolbox</a>: Email and DNS investigation tools</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Communities and Forums</h4><ul><li><a href='https://www.reddit.com/r/computerforensics/' class='text-blue-600 hover:underline'>r/computerforensics</a>: Reddit community for digital forensics</li><li><a href='https://www.reddit.com/r/Malware/' class='text-blue-600 hover:underline'>r/Malware</a>: Reddit community focused on malware analysis</li><li><a href='https://twitter.com/i/lists/1423693426437001224' class='text-blue-600 hover:underline'>Twitter Phishing Researchers List</a>: Follow experts in the field</li><li>SANS DFIR Community</li></ul><p>Remember that phishing techniques and tools evolve constantly. Staying current through continuous learning and community engagement is essential for effective investigations.</p>",
+      "resources": [
+        {
+          "title": "PhishTank",
+          "url": "https://www.phishtank.com/",
+          "description": "Database of verified phishing sites"
+        },
+        {
+          "title": "URLScan.io",
+          "url": "https://urlscan.io/",
+          "description": "Service for scanning and analyzing websites"
+        },
+        {
+          "title": "VirusTotal",
+          "url": "https://www.virustotal.com/",
+          "description": "Analyze suspicious files and URLs"
+        }
+      ]
+    },
+    {
+      "title": "Conclusion",
+      "content": "<p>Phishing investigation is a critical skill in the modern cybersecurity landscape. In this module, we've covered:</p><ul><li>Different types of phishing attacks and their characteristics</li><li>Safe handling procedures for potentially malicious content</li><li>Email header analysis techniques to identify deception</li><li>URL and link analysis to uncover phishing infrastructure</li><li>Domain and hosting investigation methods</li><li>Malware and attachment analysis approaches</li><li>Campaign tracking to identify patterns across attacks</li><li>Effective reporting and sharing of findings</li><li>Advanced investigation techniques for experienced analysts</li><li>Ethical and legal considerations for responsible investigations</li></ul><p>As you apply these techniques, remember that phishing attacks continue to evolve in sophistication. Successful investigators combine technical skills with critical thinking and maintain a healthy skepticism toward all digital communications.</p><p>By investigating phishing attempts thoroughly and sharing your findings responsibly, you contribute to the collective defense against these pervasive threats. Each phishing campaign exposed and neutralized protects potential victims and makes the internet a safer place for everyone.</p>"
+    }
+  ]
+}

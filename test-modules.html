@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Modules Loading</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4a6cf7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            overflow: auto;
+            max-height: 500px;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Modules Loading</h1>
+    <p>This page tests loading modules directly from the filesystem.</p>
+    
+    <button id="load-index">Load Modules Index</button>
+    <button id="load-module">Load Specific Module</button>
+    
+    <h2>Results:</h2>
+    <pre id="results"></pre>
+    
+    <script>
+        const resultsElement = document.getElementById('results');
+        
+        function log(message, isError = false) {
+            const line = document.createElement('div');
+            line.textContent = message;
+            line.className = isError ? 'error' : 'success';
+            resultsElement.appendChild(line);
+            console.log(message);
+        }
+        
+        async function loadModulesIndex() {
+            resultsElement.innerHTML = '';
+            log('Attempting to load modules index...');
+            
+            try {
+                const paths = [
+                    'modules/index.json',
+                    '/modules/index.json',
+                    '../modules/index.json'
+                ];
+                
+                for (const path of paths) {
+                    try {
+                        log(`Trying path: ${path}`);
+                        const response = await fetch(path);
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            log(`Success! Loaded ${data.length} modules from ${path}`);
+                            log(`First module: ${data[0].title}`);
+                            return;
+                        } else {
+                            log(`Failed with status: ${response.status}`, true);
+                        }
+                    } catch (e) {
+                        log(`Error with path ${path}: ${e.message}`, true);
+                    }
+                }
+                
+                // Try with XMLHttpRequest
+                log('Trying with XMLHttpRequest...');
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', 'modules/index.json', true);
+                xhr.responseType = 'json';
+                
+                xhr.onload = function() {
+                    if (xhr.status === 200 || (xhr.status === 0 && xhr.response)) {
+                        log(`XHR Success! Loaded ${xhr.response.length} modules`);
+                        log(`First module: ${xhr.response[0].title}`);
+                    } else {
+                        log(`XHR failed with status: ${xhr.status}`, true);
+                    }
+                };
+                
+                xhr.onerror = function() {
+                    log('XHR error occurred', true);
+                };
+                
+                xhr.send();
+                
+            } catch (error) {
+                log(`General error: ${error.message}`, true);
+            }
+        }
+        
+        async function loadSpecificModule() {
+            resultsElement.innerHTML = '';
+            log('Attempting to load a specific module...');
+            
+            const moduleId = 'intro-to-osint';
+            
+            try {
+                const paths = [
+                    `modules/${moduleId}.json`,
+                    `/modules/${moduleId}.json`,
+                    `../modules/${moduleId}.json`
+                ];
+                
+                for (const path of paths) {
+                    try {
+                        log(`Trying path: ${path}`);
+                        const response = await fetch(path);
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            log(`Success! Loaded module: ${data.title}`);
+                            log(`Sections: ${data.sections.length}`);
+                            return;
+                        } else {
+                            log(`Failed with status: ${response.status}`, true);
+                        }
+                    } catch (e) {
+                        log(`Error with path ${path}: ${e.message}`, true);
+                    }
+                }
+                
+                // Try with XMLHttpRequest
+                log('Trying with XMLHttpRequest...');
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', `modules/${moduleId}.json`, true);
+                xhr.responseType = 'json';
+                
+                xhr.onload = function() {
+                    if (xhr.status === 200 || (xhr.status === 0 && xhr.response)) {
+                        log(`XHR Success! Loaded module: ${xhr.response.title}`);
+                        log(`Sections: ${xhr.response.sections.length}`);
+                    } else {
+                        log(`XHR failed with status: ${xhr.status}`, true);
+                    }
+                };
+                
+                xhr.onerror = function() {
+                    log('XHR error occurred', true);
+                };
+                
+                xhr.send();
+                
+            } catch (error) {
+                log(`General error: ${error.message}`, true);
+            }
+        }
+        
+        document.getElementById('load-index').addEventListener('click', loadModulesIndex);
+        document.getElementById('load-module').addEventListener('click', loadSpecificModule);
+    </script>
+</body>
+</html>

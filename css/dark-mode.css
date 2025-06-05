@@ -1,0 +1,290 @@
+/* Dark Mode Enhancements for FreeOSINT.org */
+
+/* General dark mode improvements */
+.dark body {
+    background-color: #0f172a;
+    color: #e2e8f0;
+}
+
+/* Card backgrounds */
+.dark .bg-white,
+.dark .module-card {
+    background-color: #1e293b !important;
+}
+
+/* Text colors */
+.dark .text-gray-700,
+.dark .text-gray-800,
+.dark .text-gray-900 {
+    color: #e2e8f0 !important;
+}
+
+.dark .text-gray-600 {
+    color: #cbd5e1 !important;
+}
+
+.dark .text-gray-500 {
+    color: #94a3b8 !important;
+}
+
+.dark .text-blue-700 {
+    color: #60a5fa !important;
+}
+
+/* Border colors */
+.dark .border-gray-200,
+.dark .border-gray-100 {
+    border-color: #334155 !important;
+}
+
+/* Module cards specific styling */
+.dark .module-card {
+    border-color: #334155 !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+}
+
+.dark .module-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+}
+
+/* Difficulty badges with enhanced contrast */
+.dark .badge-beginner {
+    background-color: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.dark .badge-intermediate {
+    background-color: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+.dark .badge-advanced {
+    background-color: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.dark .badge-expert {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+/* Progress bars */
+.dark .bg-gray-200 {
+    background-color: #334155 !important;
+}
+
+/* Buttons */
+.dark button.bg-blue-600 {
+    background-color: #3b82f6 !important;
+}
+
+.dark button.bg-blue-600:hover {
+    background-color: #2563eb !important;
+}
+
+/* Section backgrounds */
+.dark .bg-blue-50 {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+.dark .bg-blue-100 {
+    background-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Image overlay for better text contrast */
+.dark .module-card .absolute.inset-0.bg-gradient-to-t {
+    opacity: 0.7 !important;
+}
+
+/* Interactive Elements Dark Mode Support */
+.dark .interactive-element {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+.dark .interactive-header {
+    background-color: #0f172a !important;
+    border-color: #334155 !important;
+    color: #e2e8f0 !important;
+}
+
+.dark .interactive-body {
+    color: #e2e8f0 !important;
+}
+
+.dark .interactive-footer {
+    background-color: #0f172a !important;
+    border-color: #334155 !important;
+    color: #e2e8f0 !important;
+}
+
+/* Quiz Element Dark Mode */
+.dark .quiz-element {
+    background-color: rgba(59, 130, 246, 0.05) !important;
+    border-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+.dark .quiz-header {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    color: #60a5fa !important;
+}
+
+.dark .quiz-option {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+    color: #e2e8f0 !important;
+}
+
+.dark .quiz-option:hover {
+    background-color: #2d3748 !important;
+    border-color: #4b5563 !important;
+}
+
+.dark .quiz-option.selected {
+    background-color: rgba(59, 130, 246, 0.2) !important;
+    border-color: #3b82f6 !important;
+}
+
+.dark .quiz-option.correct {
+    background-color: rgba(16, 185, 129, 0.2) !important;
+    border-color: #10b981 !important;
+}
+
+.dark .quiz-option.incorrect {
+    background-color: rgba(239, 68, 68, 0.2) !important;
+    border-color: #ef4444 !important;
+}
+
+/* Fill in the blanks Dark Mode */
+.dark .fill-blanks-element {
+    background-color: rgba(59, 130, 246, 0.05) !important;
+    border-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+.dark .fill-blanks-header {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    color: #60a5fa !important;
+}
+
+.dark .fill-blank {
+    border-bottom-color: #3b82f6 !important;
+    background-color: rgba(59, 130, 246, 0.05) !important;
+}
+
+.dark .fill-blank input {
+    color: #e2e8f0 !important;
+    background-color: transparent !important;
+}
+
+.dark .fill-blank.correct {
+    border-bottom-color: #10b981 !important;
+    background-color: rgba(16, 185, 129, 0.05) !important;
+}
+
+.dark .fill-blank.incorrect {
+    border-bottom-color: #ef4444 !important;
+    background-color: rgba(239, 68, 68, 0.05) !important;
+}
+
+/* Feedback messages Dark Mode */
+.dark .bg-green-100 {
+    background-color: rgba(16, 185, 129, 0.2) !important;
+}
+
+.dark .text-green-800 {
+    color: #34d399 !important;
+}
+
+.dark .bg-red-100 {
+    background-color: rgba(239, 68, 68, 0.2) !important;
+}
+
+.dark .text-red-800 {
+    color: #f87171 !important;
+}
+
+.dark .bg-yellow-100 {
+    background-color: rgba(245, 158, 11, 0.2) !important;
+}
+
+.dark .text-yellow-800 {
+    color: #fbbf24 !important;
+}
+
+/* Code blocks Dark Mode */
+.dark [data-content-type="code"] {
+    background-color: #111827 !important;
+    color: #e5e7eb !important;
+    border: 1px solid #374151 !important;
+}
+
+/* Special content boxes Dark Mode */
+.dark [data-content-type="warning"] {
+    background-color: rgba(239, 68, 68, 0.1) !important;
+    border-left-color: #ef4444 !important;
+    color: #fca5a5 !important;
+}
+
+.dark [data-content-type="tip"] {
+    background-color: rgba(16, 185, 129, 0.1) !important;
+    border-left-color: #10b981 !important;
+    color: #6ee7b7 !important;
+}
+
+.dark [data-content-type="note"] {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    border-left-color: #3b82f6 !important;
+    color: #93c5fd !important;
+}
+
+.dark [data-content-type="important"] {
+    background-color: rgba(139, 92, 246, 0.1) !important;
+    border-left-color: #8b5cf6 !important;
+    color: #c4b5fd !important;
+}
+
+.dark [data-content-type="example"] {
+    background-color: rgba(249, 115, 22, 0.1) !important;
+    border-left-color: #f97316 !important;
+    color: #fdba74 !important;
+}
+
+.dark [data-content-type="quote"] {
+    background-color: rgba(107, 114, 128, 0.1) !important;
+    border-left-color: #6b7280 !important;
+    color: #d1d5db !important;
+}
+
+/* Resources section Dark Mode */
+.dark .mt-8.p-4.bg-gray-50,
+.dark .resources-container {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+}
+
+.dark .text-gray-600,
+.dark p.text-sm.text-gray-600 {
+    color: #cbd5e1 !important;
+}
+
+.dark .text-blue-600 {
+    color: #60a5fa !important;
+}
+
+/* Error page Dark Mode */
+.dark .bg-red-50 {
+    background-color: rgba(239, 68, 68, 0.1) !important;
+}
+
+.dark .border-red-500 {
+    border-color: #ef4444 !important;
+}
+
+.dark .text-red-700 {
+    color: #f87171 !important;
+}
