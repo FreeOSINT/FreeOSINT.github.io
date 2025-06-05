@@ -1,0 +1,143 @@
+{
+  "id": "advanced-search-operators",
+  "title": "Advanced Search Operators",
+  "description": "Learn how to craft powerful search queries using advanced operators across different search engines to find exactly what you're looking for.",
+  "difficulty": "Beginner",
+  "duration": 30,
+  "image": "https://images.unsplash.com/photo-1555952494-efd681c7e3f9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+  "tags": ["search", "google", "operators", "techniques"],
+  "sections": [
+    {
+      "title": "Introduction to Advanced Search",
+      "content": "<p>Search engines are the gateway to the vast information available on the internet, but basic searches often return too many irrelevant results. Advanced search operators allow you to refine your queries and find exactly what you're looking for with precision.</p><div class='bg-yellow-50 border-l-4 border-yellow-500 p-4 my-4'><p class='text-yellow-700'><strong>Important:</strong> Advanced search operators are special commands that modify how search engines interpret your query, allowing for much more precise results.</p></div><p>In this module, you'll learn how to:</p><ul><li>Use search operators to narrow down results</li><li>Combine operators for complex queries</li><li>Apply these techniques across different search engines</li><li>Save time and find more relevant information</li></ul><p>These skills are fundamental to effective OSINT investigations and will dramatically improve your ability to find specific information online.</p><div class='bg-blue-50 border-l-4 border-blue-500 p-4 my-4'><p class='text-blue-700'><strong>Note:</strong> While this module focuses primarily on Google search operators, most of these techniques can be applied to other search engines with slight variations.</p></div>"
+    },
+    {
+      "title": "Basic Search Operators",
+      "content": "<p>Let's start with the most common search operators that work across most search engines:</p><table class='w-full border-collapse mb-6'><thead><tr class='bg-blue-100'><th class='border border-gray-300 p-2 text-left'>Operator</th><th class='border border-gray-300 p-2 text-left'>Function</th><th class='border border-gray-300 p-2 text-left'>Example</th></tr></thead><tbody><tr><td class='border border-gray-300 p-2'><code>\"\"</code> (quotation marks)</td><td class='border border-gray-300 p-2'>Search for an exact phrase</td><td class='border border-gray-300 p-2'><code>\"open source intelligence\"</code></td></tr><tr><td class='border border-gray-300 p-2'><code>-</code> (minus sign)</td><td class='border border-gray-300 p-2'>Exclude a term</td><td class='border border-gray-300 p-2'><code>osint -government</code></td></tr><tr><td class='border border-gray-300 p-2'><code>OR</code></td><td class='border border-gray-300 p-2'>Search for either term</td><td class='border border-gray-300 p-2'><code>osint OR \"open source intelligence\"</code></td></tr><tr><td class='border border-gray-300 p-2'><code>AND</code></td><td class='border border-gray-300 p-2'>Search for both terms</td><td class='border border-gray-300 p-2'><code>osint AND ethics</code></td></tr><tr><td class='border border-gray-300 p-2'><code>()</code> (parentheses)</td><td class='border border-gray-300 p-2'>Group operators</td><td class='border border-gray-300 p-2'><code>(osint OR intelligence) AND tools</code></td></tr></tbody></table><div class='bg-green-50 border-l-4 border-green-500 p-4 my-4'><p class='text-green-700'><strong>Example:</strong> To find information about Python (the programming language) while excluding results about snakes:<br><code>python programming -snake</code><br><br>This query tells the search engine to find pages that mention \"python\" and \"programming\" but not \"snake\".</p></div><p>These operators form the foundation of advanced searching and can be combined to create highly specific queries.</p><div class='bg-blue-50 border-l-4 border-blue-500 p-4 my-4'><p class='text-blue-700'><strong>Tip:</strong> The quotation marks operator is particularly useful for multi-word concepts that might otherwise be interpreted separately. For example, searching for <code>\"social engineering\"</code> ensures you get results about the specific security concept rather than general information about social topics and engineering.</p></div>"
+    },
+    {
+      "title": "Google-Specific Operators",
+      "content": "<p>Google offers several powerful search operators that are particularly useful for OSINT investigations:</p><table class='w-full border-collapse mb-6'><thead><tr class='bg-blue-100'><th class='border border-gray-300 p-2 text-left'>Operator</th><th class='border border-gray-300 p-2 text-left'>Function</th><th class='border border-gray-300 p-2 text-left'>Example</th></tr></thead><tbody><tr><td class='border border-gray-300 p-2'><code>site:</code></td><td class='border border-gray-300 p-2'>Limit results to a specific website or domain</td><td class='border border-gray-300 p-2'><code>site:example.com osint</code></td></tr><tr><td class='border border-gray-300 p-2'><code>filetype:</code></td><td class='border border-gray-300 p-2'>Find specific file types</td><td class='border border-gray-300 p-2'><code>filetype:pdf \"osint methodology\"</code></td></tr><tr><td class='border border-gray-300 p-2'><code>intitle:</code></td><td class='border border-gray-300 p-2'>Find pages with specific words in the title</td><td class='border border-gray-300 p-2'><code>intitle:osint tools</code></td></tr><tr><td class='border border-gray-300 p-2'><code>inurl:</code></td><td class='border border-gray-300 p-2'>Find pages with specific words in the URL</td><td class='border border-gray-300 p-2'><code>inurl:security osint</code></td></tr><tr><td class='border border-gray-300 p-2'><code>intext:</code></td><td class='border border-gray-300 p-2'>Find pages with specific words in the content</td><td class='border border-gray-300 p-2'><code>intext:\"social media investigation\"</code></td></tr><tr><td class='border border-gray-300 p-2'><code>after:</code> / <code>before:</code></td><td class='border border-gray-300 p-2'>Limit results to a specific time period</td><td class='border border-gray-300 p-2'><code>osint after:2022-01-01 before:2022-12-31</code></td></tr></tbody></table><div class='bg-red-50 border-l-4 border-red-500 p-4 my-4'><p class='text-red-700'><strong>Warning:</strong> Be careful when using multiple restrictive operators together. If your search is too specific, you might miss relevant results. Start with broader searches and gradually add operators to narrow down results.</p></div><p>These operators can dramatically improve the precision of your Google searches and help you find information that would be difficult to locate with basic search terms.</p><div class='bg-green-50 border-l-4 border-green-500 p-4 my-4'><p class='text-green-700'><strong>Example:</strong> To find government cybersecurity reports in PDF format published in 2022:<br><code>site:gov cybersecurity report filetype:pdf after:2022-01-01 before:2022-12-31</code></p></div>"
+    },
+    {
+      "title": "Practice: Basic Operators",
+      "type": "quiz",
+      "question": "Which search query would you use to find pages about OSINT that do NOT mention Facebook?",
+      "options": [
+        "osint AND facebook",
+        "osint -facebook",
+        "osint NOT facebook",
+        "\"osint without facebook\""
+      ],
+      "correctAnswer": "osint -facebook",
+      "explanation": "The minus sign (-) is used to exclude terms from search results. The query 'osint -facebook' will return pages about OSINT that don't mention Facebook.",
+      "shuffle": true,
+      "points": 10,
+      "successMessage": "Correct! The minus sign (-) is a powerful operator for excluding unwanted terms from your search results."
+    },
+    {
+      "title": "Combining Operators",
+      "content": "<p>The real power of search operators comes from combining them to create highly specific queries. Here are some examples of combined operators:</p><ul><li><code>site:linkedin.com intitle:\"cyber security\" \"osint\"</code> - Find LinkedIn profiles that mention OSINT and have \"cyber security\" in the title</li><li><code>filetype:pdf site:gov \"open source intelligence\" after:2020</code> - Find government PDFs about open source intelligence published after 2020</li><li><code>inurl:forum (osint OR \"open source intelligence\") -site:reddit.com</code> - Find forum discussions about OSINT that are not on Reddit</li></ul><div class='bg-blue-50 border-l-4 border-blue-500 p-4 my-4'><p class='text-blue-700'><strong>Note:</strong> When combining operators, it's important to understand how they interact. Generally, search engines process operators in this order:</p><ol><li>Exact phrases (in quotes)</li><li>Exclusions (minus sign)</li><li>Site/domain restrictions</li><li>OR operators</li><li>Regular terms</li></ol></div><p>Using parentheses can help clarify the intended logic of your search.</p><div class='bg-green-50 border-l-4 border-green-500 p-4 my-4'><p class='text-green-700'><strong>Example:</strong> Let's break down this complex query:<br><code>site:(edu OR gov) (\"cyber security\" OR cybersecurity) tools filetype:pdf -\"job posting\" after:2021</code><br><br>This will find:<br>- PDF files<br>- From .edu or .gov domains<br>- About cyber security tools<br>- Published after 2021<br>- Excluding job postings</p></div>"
+    },
+    {
+      "title": "Search Operators Exercise",
+      "type": "fill-blanks",
+      "instruction": "Fill in the blanks with the appropriate search operators:",
+      "text": "To find PDF files about OSINT on government websites, use: [blank]:pdf [blank]:gov osint\n\nTo search for an exact phrase, use: [blank]open source intelligence[blank]\n\nTo exclude results from a specific site, use: osint [blank]site:facebook.com\n\nTo find pages with 'OSINT' in the title, use: [blank]:osint tools",
+      "blanks": ["filetype", "site", "\"", "\"", "-", "intitle"],
+      "acceptableAnswers": [
+        ["filetype"],
+        ["site"],
+        ["\""],
+        ["\""],
+        ["-"],
+        ["intitle"]
+      ],
+      "successMessage": "Excellent! You've correctly identified the appropriate search operators.",
+      "incorrectMessage": "Some answers need revision. Review the search operators covered in the previous sections.",
+      "hints": [
+        "Think about which operators target specific file types",
+        "Consider which operators limit results to specific domains",
+        "Remember how to specify exact phrases"
+      ],
+      "points": 15
+    },
+    {
+      "title": "Search Operators Across Different Platforms",
+      "content": "<p>While many search operators work across different search engines, each platform has its own specific operators and syntax. Here's a comparison of some common operators across platforms:</p><table class='w-full border-collapse mb-6'><thead><tr class='bg-blue-100'><th class='border border-gray-300 p-2 text-left'>Function</th><th class='border border-gray-300 p-2 text-left'>Google</th><th class='border border-gray-300 p-2 text-left'>Bing</th><th class='border border-gray-300 p-2 text-left'>DuckDuckGo</th></tr></thead><tbody><tr><td class='border border-gray-300 p-2'>Site search</td><td class='border border-gray-300 p-2'><code>site:example.com</code></td><td class='border border-gray-300 p-2'><code>site:example.com</code></td><td class='border border-gray-300 p-2'><code>site:example.com</code></td></tr><tr><td class='border border-gray-300 p-2'>File type</td><td class='border border-gray-300 p-2'><code>filetype:pdf</code></td><td class='border border-gray-300 p-2'><code>filetype:pdf</code></td><td class='border border-gray-300 p-2'><code>filetype:pdf</code></td></tr><tr><td class='border border-gray-300 p-2'>Title search</td><td class='border border-gray-300 p-2'><code>intitle:osint</code></td><td class='border border-gray-300 p-2'><code>intitle:osint</code></td><td class='border border-gray-300 p-2'><code>intitle:osint</code></td></tr><tr><td class='border border-gray-300 p-2'>URL search</td><td class='border border-gray-300 p-2'><code>inurl:osint</code></td><td class='border border-gray-300 p-2'><code>inurl:osint</code></td><td class='border border-gray-300 p-2'><code>inurl:osint</code></td></tr></tbody></table><div class='bg-yellow-50 border-l-4 border-yellow-500 p-4 my-4'><p class='text-yellow-700'><strong>Important:</strong> Social media platforms also have their own search syntax that can be extremely valuable for OSINT investigations:</p><ul><li><strong>Twitter</strong>: <code>from:username</code>, <code>to:username</code>, <code>filter:media</code>, <code>since:YYYY-MM-DD</code></li><li><strong>Facebook</strong>: <code>posts by</code>, <code>posts written by</code>, <code>posts commented on by</code></li><li><strong>LinkedIn</strong>: <code>company:</code>, <code>school:</code>, <code>title:</code></li></ul></div><p>Learning platform-specific operators can significantly enhance your ability to find information across the web.</p><div class='bg-blue-50 border-l-4 border-blue-500 p-4 my-4'><p class='text-blue-700'><strong>Tip:</strong> When investigating a specific person or organization, try searching across multiple platforms using their specific search operators. Different platforms may reveal different types of information.</p></div>"
+    },
+    {
+      "title": "Platform-Specific Operators",
+      "type": "matching",
+      "instruction": "Match each platform-specific search operator with its correct function:",
+      "pairs": [
+        {
+          "term": "from:username (Twitter)",
+          "definition": "Find tweets posted by a specific user"
+        },
+        {
+          "term": "filter:media (Twitter)",
+          "definition": "Find tweets containing images or videos"
+        },
+        {
+          "term": "posts by (Facebook)",
+          "definition": "Find content created by a specific person"
+        },
+        {
+          "term": "company:microsoft (LinkedIn)",
+          "definition": "Find profiles of people who work at Microsoft"
+        },
+        {
+          "term": "site:instagram.com username",
+          "definition": "Find Google-indexed content from a specific Instagram account"
+        }
+      ],
+      "successMessage": "Great job! You've correctly matched all platform-specific operators with their functions.",
+      "incorrectMessage": "Some matches are incorrect. Review the platform-specific operators and try again.",
+      "hints": [
+        "Think about what each platform specializes in",
+        "Consider what type of content each operator might target"
+      ],
+      "points": 20
+    },
+    {
+      "title": "Creating Complex Search Strategies",
+      "content": "<p>Effective OSINT investigations often require developing comprehensive search strategies that go beyond single queries. Here's a methodical approach to creating search strategies:</p><div class='bg-yellow-50 border-l-4 border-yellow-500 p-4 my-4'><p class='text-yellow-700'><strong>Important:</strong> A search strategy is a systematic plan for finding information that includes multiple queries, refinements, and documentation of your process.</p></div><ol><li><strong>Define your information needs</strong>: What specific information are you looking for? What are the key terms, entities, or concepts?</li><li><strong>Identify alternative terms</strong>: List synonyms, related terms, abbreviations, and variations of your key terms</li><li><strong>Determine relevant constraints</strong>: Time periods, file types, languages, regions, or specific websites</li><li><strong>Craft initial queries</strong>: Start with broad searches using your key terms</li><li><strong>Refine iteratively</strong>: Analyze results and adjust your queries by adding operators to narrow down or expand as needed</li><li><strong>Document your process</strong>: Keep track of successful and unsuccessful queries for future reference</li></ol><div class='bg-green-50 border-l-4 border-green-500 p-4 my-4'><p class='text-green-700'><strong>Example:</strong> Example of a search strategy evolution:<br><ol><li>Initial query: <code>cybersecurity training</code></li><li>Refined with synonyms: <code>(cybersecurity OR \"cyber security\" OR \"information security\") training</code></li><li>Add constraints: <code>(cybersecurity OR \"cyber security\") training filetype:pdf after:2021</code></li><li>Target specific sources: <code>site:edu (cybersecurity OR \"cyber security\") (training OR course OR curriculum) filetype:pdf after:2021</code></li></ol></p></div><p>This iterative approach helps you systematically explore available information and zero in on relevant results.</p><div class='bg-blue-50 border-l-4 border-blue-500 p-4 my-4'><p class='text-blue-700'><strong>Tip:</strong> Create a search journal to document your queries, their results, and your thought process. This not only helps you refine your current investigation but also builds your skills for future searches.</p></div>"
+    },
+    {
+      "title": "Search Strategy Exercise",
+      "type": "code",
+      "instruction": "Create a search query to find government reports about cybersecurity threats published in the last two years that mention OSINT techniques. Use appropriate operators and explain your approach.",
+      "codeTemplate": "# Your search query:\n\n\n# Explanation of your approach:\n",
+      "requiredElements": ["site:gov", "filetype:", "after:", "cybersecurity", "osint"],
+      "successMessage": "Great job! Your search query effectively combines multiple operators to target specific information.",
+      "incorrectMessage": "Your query is missing some key elements. Make sure to include site restriction, file type, date range, and relevant terms.",
+      "points": 25
+    },
+    {
+      "title": "Advanced Search Techniques Quiz",
+      "type": "quiz",
+      "question": "Which of the following search queries would be most effective for finding academic research papers about OSINT techniques published in the last year?",
+      "options": [
+        "osint techniques research papers recent",
+        "\"osint techniques\" site:edu filetype:pdf after:2022",
+        "intitle:osint intext:techniques site:academia.edu",
+        "osint AND techniques AND research AND papers after:2022"
+      ],
+      "correctAnswer": "\"osint techniques\" site:edu filetype:pdf after:2022",
+      "explanation": "This query combines several powerful operators: exact phrase matching for 'osint techniques', restriction to educational domains with site:edu, focus on PDF files which are common for research papers, and time restriction to only show recent results.",
+      "shuffle": true,
+      "points": 15,
+      "successMessage": "Excellent choice! This query effectively combines multiple operators to target academic research papers."
+    },
+    {
+      "title": "Conclusion and Best Practices",
+      "content": "<p>Advanced search operators are essential tools for effective OSINT investigations. They allow you to find specific information quickly and efficiently, cutting through the vast amount of data available online.</p><div class='bg-yellow-50 border-l-4 border-yellow-500 p-4 my-4'><p class='text-yellow-700'><strong>Important:</strong> Best Practices for Advanced Searching</p><ul><li><strong>Start broad, then narrow</strong>: Begin with more general searches and add operators to refine results</li><li><strong>Combine operators strategically</strong>: Use multiple operators together for precision</li><li><strong>Document successful queries</strong>: Save effective search strings for future use</li><li><strong>Use parentheses for clarity</strong>: Group terms logically to ensure correct interpretation</li><li><strong>Iterate and experiment</strong>: Try different combinations of operators and terms</li><li><strong>Consider alternative platforms</strong>: Different search engines may yield different results</li></ul></div><p>Remember that search operators are just tools—they're most effective when combined with critical thinking and analytical skills. The best OSINT practitioners develop an intuitive sense for crafting queries that yield valuable results.</p><div class='bg-gray-50 border-l-4 border-gray-500 p-4 my-4'><p class='text-gray-700 italic'>\"The true art of OSINT isn't just knowing where to look, but knowing how to ask the right questions.\"</p></div><p>As you continue your OSINT journey, practice using these operators regularly to build proficiency. Over time, constructing complex queries will become second nature, allowing you to find information that others might miss.</p><div class='bg-blue-50 border-l-4 border-blue-500 p-4 my-4'><p class='text-blue-700'><strong>Tip:</strong> Create a personal cheat sheet of your most frequently used search operators and combinations. Having this reference handy will speed up your investigations and help you develop your own search methodology.</p></div>",
+      "hints": [
+        "Regular practice is key to mastering search operators.",
+        "Create a personal reference sheet of operators you use frequently.",
+        "Different search engines may interpret operators slightly differently—test your queries across platforms."
+      ]
+    }
+  ]
+}

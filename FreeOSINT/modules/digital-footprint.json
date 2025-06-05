@@ -1,0 +1,24 @@
+{
+  "id": "digital-footprint",
+  "title": "Digital Footprint Analysis",
+  "description": "Learn how to analyze and interpret digital footprints to gather intelligence about individuals and organizations.",
+  "difficulty": "Intermediate",
+  "duration": 90,
+  "image": "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+  "featured": true,
+  "tags": ["digital footprint", "online presence", "data analysis"],
+  "sections": [
+    {
+      "title": "Understanding Digital Footprints",
+      "content": "<p>A digital footprint is the trail of data that users leave behind when using digital services. This includes:</p><ul><li>Social media activity</li><li>Website registrations</li><li>Online purchases</li><li>Comments and forum posts</li><li>Email communications</li><li>App usage</li><li>Location data</li></ul><p>Digital footprints can be either active (deliberately created) or passive (created without the user's direct knowledge).</p>"
+    },
+    {
+      "title": "Tools for Digital Footprint Analysis",
+      "content": "<p>Several tools can help analyze digital footprints:</p><ul><li><strong>Username search tools</strong>: Find accounts across multiple platforms</li><li><strong>Email analysis tools</strong>: Discover accounts linked to email addresses</li><li><strong>Reverse image search</strong>: Find instances of images across the web</li><li><strong>Domain and IP lookup tools</strong>: Identify website ownership and hosting</li><li><strong>Archive services</strong>: Access historical versions of web content</li></ul><p>These tools help investigators piece together a comprehensive picture of an individual's or organization's online presence.</p>"
+    },
+    {
+      "title": "Ethical Considerations",
+      "content": "<p>When analyzing digital footprints, investigators must consider:</p><ul><li>Privacy laws and regulations</li><li>Terms of service of platforms</li><li>Ethical boundaries</li><li>Data protection requirements</li><li>Potential for misidentification</li></ul><p>Always ensure that digital footprint analysis is conducted for legitimate purposes and with appropriate authorization.</p>"
+    }
+  ]
+}

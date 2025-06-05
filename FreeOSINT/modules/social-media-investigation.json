@@ -1,0 +1,133 @@
+{
+  "id": "social-media-investigation",
+  "title": "Social Media Investigation",
+  "description": "Discover techniques for gathering intelligence from various social media platforms while respecting privacy and terms of service.",
+  "difficulty": "Intermediate",
+  "duration": 60,
+  "image": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
+  "sections": [
+    {
+      "title": "Introduction to Social Media OSINT",
+      "content": "<p>Social media platforms contain vast amounts of publicly shared information that can provide valuable intelligence for investigations. However, this type of OSINT requires special consideration for privacy, ethics, and legal compliance.</p><p>In this module, you'll learn:</p><ul><li>Effective techniques for finding and analyzing social media profiles</li><li>Platform-specific search strategies</li><li>Methods for preserving and documenting social media evidence</li><li>Ethical and legal considerations specific to social media investigations</li></ul><p>Remember that social media OSINT should always be conducted with respect for privacy and in compliance with platform terms of service.</p>"
+    },
+    {
+      "title": "Finding Social Media Profiles",
+      "content": "<p>Locating relevant social media profiles is often the first step in social media OSINT. Here are several approaches:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Username Analysis</h4><p>People often use the same or similar usernames across multiple platforms. Tools like NameChk, WhatsMyName, and Sherlock can help identify accounts across different platforms based on username.</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Email-Based Search</h4><p>Email addresses can sometimes be used to discover associated social media accounts through:</p><ul><li>Checking if the email is used as a public username</li><li>Using the 'forgot password' feature to verify if an email is registered (note: this may be against terms of service)</li><li>Searching for the email address in quotes on search engines</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Reverse Image Search</h4><p>Profile pictures can be searched using reverse image tools like Google Images, TinEye, or Yandex to find the same image used on other platforms.</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Network Analysis</h4><p>Examining friends, followers, and connections can reveal additional profiles belonging to the same person or their associates.</p>"
+    },
+    {
+      "title": "Platform-Specific Techniques",
+      "content": "<p>Each social media platform has unique features and search capabilities. Here are techniques for some major platforms:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Twitter</h4><p>Twitter's advanced search (https://twitter.com/search-advanced) offers powerful filtering options:</p><ul><li><code>from:username</code> - Tweets from a specific user</li><li><code>to:username</code> - Replies to a specific user</li><li><code>since:YYYY-MM-DD until:YYYY-MM-DD</code> - Date range</li><li><code>near:\"location\" within:10mi</code> - Geographical search</li><li><code>filter:media</code>, <code>filter:images</code>, <code>filter:videos</code> - Media type filters</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Facebook</h4><p>Facebook has limited public search capabilities, but these approaches can help:</p><ul><li>Graph search techniques (though functionality has been reduced)</li><li>Using site-specific Google searches: <code>site:facebook.com \"John Smith\" Boston</code></li><li>Exploring public groups and pages related to specific interests or locations</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Instagram</h4><p>Instagram investigation techniques include:</p><ul><li>Hashtag analysis to find related content</li><li>Location tagging to find posts from specific places</li><li>Exploring followers/following lists for network analysis</li><li>Using third-party tools to view public stories and highlights</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>LinkedIn</h4><p>LinkedIn provides professional information that can be valuable:</p><ul><li>Company searches to find employees of specific organizations</li><li>Education searches to find alumni of specific institutions</li><li>Skills and endorsements to identify expertise</li><li>Job history to establish timeline and connections</li></ul>"
+    },
+    {
+      "title": "Platform Knowledge Check",
+      "type": "matching",
+      "instruction": "Match each search operator with the correct social media platform where it's most commonly used:",
+      "pairs": [
+        {
+          "term": "from:username",
+          "definition": "Twitter"
+        },
+        {
+          "term": "filter:media",
+          "definition": "Twitter"
+        },
+        {
+          "term": "site:facebook.com",
+          "definition": "Google (for Facebook content)"
+        },
+        {
+          "term": "company:\"organization name\"",
+          "definition": "LinkedIn"
+        },
+        {
+          "term": "#hashtag",
+          "definition": "Instagram"
+        }
+      ],
+      "successMessage": "Great job! You've correctly matched the search operators with their platforms."
+    },
+    {
+      "title": "Content Analysis Techniques",
+      "content": "<p>Once you've located relevant profiles, the next step is analyzing the content for intelligence value:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Temporal Analysis</h4><p>Examining posting patterns and timestamps can reveal:</p><ul><li>Daily routines and active hours</li><li>Time zone information</li><li>Significant life events and timeline</li><li>Periods of inactivity or changes in behavior</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Linguistic Analysis</h4><p>Language use can provide insights into:</p><ul><li>Educational background</li><li>Regional dialects or nationality</li><li>Professional jargon or expertise</li><li>Personality traits and interests</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Visual Analysis</h4><p>Images and videos often contain valuable information:</p><ul><li>EXIF data (if not stripped by the platform)</li><li>Geolocation clues in the background</li><li>Identification of associates</li><li>Lifestyle indicators</li><li>Recurring locations or items</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Network Analysis</h4><p>Examining connections between accounts can reveal:</p><ul><li>Close associates and relationships</li><li>Professional networks</li><li>Community affiliations</li><li>Influential connections</li></ul>"
+    },
+    {
+      "title": "Content Analysis Quiz",
+      "type": "quiz",
+      "question": "Which of the following is NOT typically a reliable method for analyzing social media content?",
+      "options": [
+        "Examining posting timestamps to determine a user's timezone",
+        "Analyzing background elements in photos for location clues",
+        "Using the number of followers as a definitive measure of credibility",
+        "Identifying recurring contacts in comments and interactions"
+      ],
+      "correctAnswer": "Using the number of followers as a definitive measure of credibility",
+      "explanation": "Follower count is not a reliable indicator of credibility or influence, as followers can be purchased or artificially inflated. The other methods provide more objective data points for analysis.",
+      "shuffle": true
+    },
+    {
+      "title": "Documentation and Preservation",
+      "content": "<p>Proper documentation is crucial for social media OSINT, especially if the findings may be used in formal reports or legal proceedings:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Documentation Best Practices</h4><ul><li><strong>Capture full-page screenshots</strong> that include URLs, timestamps, and context</li><li><strong>Record the search methodology</strong> used to find the information</li><li><strong>Maintain a chain of custody</strong> for all collected information</li><li><strong>Note any tools or techniques</strong> used in the collection process</li><li><strong>Document negative results</strong> as well as positive findings</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Preservation Methods</h4><p>Social media content can be ephemeral, so preservation is important:</p><ul><li><strong>Web archiving tools</strong> like Archive.is or Wayback Machine</li><li><strong>Video capture software</strong> for dynamic content or stories</li><li><strong>PDF conversion</strong> with metadata preservation</li><li><strong>Hash values</strong> to verify file integrity</li><li><strong>Offline storage</strong> of critical evidence</li></ul><p>Remember that social media platforms frequently change their interfaces and features, so documentation should be thorough enough to be understood even if the platform changes significantly.</p>"
+    },
+    {
+      "title": "Documentation Exercise",
+      "type": "fill-blanks",
+      "instruction": "Fill in the blanks with the appropriate documentation practices:",
+      "text": "When documenting social media findings, always capture [blank] that include the URL and timestamp. It's important to record your [blank] so others can understand how you found the information. For preservation, consider using [blank] tools to create permanent archives. Always document both [blank] and positive results to show thoroughness. Finally, maintain a proper [blank] for all digital evidence collected.",
+      "blanks": ["screenshots", "methodology", "web archiving", "negative", "chain of custody"],
+      "acceptableAnswers": [
+        ["screenshots", "full-page screenshots", "screen captures"],
+        ["methodology", "search methodology", "methods", "process"],
+        ["web archiving", "archiving", "preservation"],
+        ["negative", "null", "unsuccessful"],
+        ["chain of custody", "evidence chain", "custody record"]
+      ],
+      "successMessage": "Excellent! You understand the key documentation practices for social media OSINT.",
+      "incorrectMessage": "Some answers need revision. Review the documentation best practices section."
+    },
+    {
+      "title": "Ethical and Legal Considerations",
+      "content": "<p>Social media OSINT presents unique ethical and legal challenges that must be carefully navigated:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Legal Considerations</h4><ul><li><strong>Terms of Service</strong>: Most platforms prohibit scraping, automated collection, or creating fake accounts</li><li><strong>Privacy Laws</strong>: Regulations like GDPR, CCPA, and others may restrict how information can be collected and used</li><li><strong>Copyright</strong>: Social media content is often copyrighted by the creator</li><li><strong>Admissibility</strong>: Evidence collection methods may affect whether findings can be used in legal proceedings</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Ethical Considerations</h4><ul><li><strong>Proportionality</strong>: The depth of investigation should be proportional to the legitimate purpose</li><li><strong>Minimization</strong>: Collect only what is necessary for your objective</li><li><strong>Transparency</strong>: Be honest about your methods when appropriate</li><li><strong>Harm Prevention</strong>: Consider potential consequences of your investigation</li><li><strong>Bias Awareness</strong>: Recognize how your own biases might affect interpretation</li></ul><p>The ethical investigator always asks not just \"Can I access this information?\" but also \"Should I access this information?\" and \"How should I responsibly use this information?\"</p>"
+    },
+    {
+      "title": "Ethical Scenario",
+      "type": "quiz",
+      "question": "You're conducting an OSINT investigation and discover that a subject has two Instagram accounts: one public professional account and one private personal account that they haven't linked to their public identity. What is the most ethical approach?",
+      "options": [
+        "Create a fake account to send a follow request to the private account",
+        "Focus your investigation on the public professional account only",
+        "Contact the subject directly to ask about the private account",
+        "Use social engineering to gain access to the private account"
+      ],
+      "correctAnswer": "Focus your investigation on the public professional account only",
+      "explanation": "The most ethical approach is to respect the boundary the subject has created between their public and private online presence. Creating fake accounts or using social engineering techniques violates platform terms of service and ethical guidelines for OSINT investigations.",
+      "shuffle": true
+    },
+    {
+      "title": "Advanced Techniques and Tools",
+      "content": "<p>For more comprehensive social media investigations, consider these advanced techniques and tools:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Cross-Platform Analysis</h4><p>Correlating information across multiple platforms can provide a more complete picture:</p><ul><li>Identifying inconsistencies in self-reported information</li><li>Confirming information through multiple sources</li><li>Discovering connections not apparent on a single platform</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Specialized Tools</h4><p>Several tools can enhance social media OSINT capabilities:</p><ul><li><strong>Social Mapper</strong>: Correlates profiles across platforms</li><li><strong>Twint</strong>: Advanced Twitter scraping without API limitations</li><li><strong>Maltego</strong>: Visual link analysis for social media connections</li><li><strong>Hunchly</strong>: Automated documentation of online investigations</li><li><strong>Spiderfoot</strong>: Automated OSINT gathering from multiple sources</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Monitoring and Alerts</h4><p>Setting up monitoring can help track changes over time:</p><ul><li>RSS feeds for blog or content updates</li><li>Google Alerts for name or keyword mentions</li><li>Visualping or similar services for website changes</li><li>Social media monitoring tools for new posts or interactions</li></ul><p>Remember that advanced tools should be used responsibly and in compliance with legal requirements and platform terms of service.</p>"
+    },
+    {
+      "title": "Tool Selection Exercise",
+      "type": "quiz",
+      "question": "For a long-term investigation where you need to monitor changes to several social media profiles over time, which approach would be most effective?",
+      "options": [
+        "Taking manual screenshots every day",
+        "Setting up automated monitoring and change detection tools",
+        "Creating fake accounts to follow all the profiles",
+        "Downloading all current content and analyzing it once"
+      ],
+      "correctAnswer": "Setting up automated monitoring and change detection tools",
+      "explanation": "Automated monitoring tools provide the most efficient and thorough way to track changes over time. Manual screenshots are time-consuming and prone to gaps, fake accounts violate terms of service, and one-time analysis misses new developments.",
+      "shuffle": true
+    },
+    {
+      "title": "Conclusion and Best Practices",
+      "content": "<p>Social media OSINT can provide valuable insights when conducted properly. Here are key best practices to remember:</p><ol><li><strong>Start with clear objectives</strong> to guide your investigation</li><li><strong>Use the least intrusive methods</strong> necessary to achieve your goals</li><li><strong>Document everything thoroughly</strong>, including your methodology</li><li><strong>Verify information</strong> across multiple sources when possible</li><li><strong>Respect privacy boundaries</strong> and platform terms of service</li><li><strong>Consider the ethical implications</strong> of your investigation</li><li><strong>Secure sensitive information</strong> collected during your investigation</li><li><strong>Stay updated on platform changes</strong> that may affect investigation techniques</li></ol><p>Social media investigations require a balance of technical skills, analytical thinking, and ethical judgment. By following these best practices, you can conduct effective investigations while maintaining professional standards.</p><p>Remember that social media is constantly evolving, so successful investigators must continuously update their knowledge and adapt their techniques to new platforms and features.</p>",
+      "hints": [
+        "Social media platforms frequently change their features and privacy settings—stay updated on these changes.",
+        "Always consider whether your investigation methods would stand up to scrutiny if they were made public.",
+        "Documentation is crucial—if you didn't document it, it might as well not have happened."
+      ]
+    }
+  ]
+}
