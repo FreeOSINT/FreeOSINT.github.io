@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Curriculum | FreeOSINT.org</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .markdown-content h1 {
+            @apply text-4xl font-bold text-blue-800 dark:text-blue-200 mb-6 mt-8;
+        }
+        .markdown-content h2 {
+            @apply text-3xl font-bold text-blue-700 dark:text-blue-300 mb-4 mt-6 border-b-2 border-blue-500 pb-2;
+        }
+        .markdown-content h3 {
+            @apply text-2xl font-bold text-gray-800 dark:text-gray-200 mb-3 mt-4;
+        }
+        .markdown-content h4 {
+            @apply text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2 mt-3;
+        }
+        .markdown-content p {
+            @apply text-gray-700 dark:text-gray-300 mb-4 leading-relaxed;
+        }
+        .markdown-content ul, .markdown-content ol {
+            @apply ml-6 mb-4;
+        }
+        .markdown-content li {
+            @apply text-gray-700 dark:text-gray-300 mb-2 leading-relaxed;
+        }
+        .markdown-content ul > li {
+            @apply list-disc;
+        }
+        .markdown-content ol > li {
+            @apply list-decimal;
+        }
+        .markdown-content strong {
+            @apply font-bold text-gray-900 dark:text-gray-100;
+        }
+        .markdown-content em {
+            @apply italic text-gray-800 dark:text-gray-200;
+        }
+        .markdown-content code {
+            @apply bg-gray-100 dark:bg-gray-800 text-red-600 dark:text-red-400 px-2 py-1 rounded text-sm font-mono;
+        }
+        .markdown-content pre {
+            @apply bg-gray-100 dark:bg-gray-800 p-4 rounded-lg mb-4 overflow-x-auto;
+        }
+        .markdown-content pre code {
+            @apply bg-transparent text-gray-800 dark:text-gray-200 p-0;
+        }
+        .markdown-content blockquote {
+            @apply border-l-4 border-blue-500 pl-4 italic text-gray-600 dark:text-gray-400 my-4;
+        }
+        .markdown-content a {
+            @apply text-blue-600 dark:text-blue-400 hover:underline;
+        }
+        .markdown-content table {
+            @apply w-full border-collapse my-4;
+        }
+        .markdown-content th {
+            @apply bg-blue-100 dark:bg-blue-900 text-left px-4 py-2 font-bold border border-gray-300 dark:border-gray-700;
+        }
+        .markdown-content td {
+            @apply px-4 py-2 border border-gray-300 dark:border-gray-700;
+        }
+        .dark-transition {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 min-h-screen dark-transition">
+    <header class="bg-blue-600 dark:bg-blue-900 text-white shadow-md sticky top-0 z-50 dark-transition">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <a href="../index.html" class="flex items-center">
+                        <img src="https://i.imgur.com/JOgOtQK.png" alt="FreeOSINT Logo" class="h-10 mr-3">
+                        <h1 class="text-3xl font-bold">
+                            <span class="text-white">FreeOSINT</span><span class="text-blue-200">.org</span>
+                        </h1>
+                    </a>
+                </div>
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-6">
+                        <li><a href="../index.html" class="hover:text-blue-200 transition-colors duration-200">Home</a></li>
+                        <li><a href="training.html" class="hover:text-blue-200 transition-colors duration-200">Training</a></li>
+                        <li><a href="resources.html" class="hover:text-blue-200 transition-colors duration-200">Resources</a></li>
+                        <li><a href="get-active.html" class="hover:text-blue-200 transition-colors duration-200">Get Active</a></li>
+                        <li><a href="about.html" class="hover:text-blue-200 transition-colors duration-200">About</a></li>
+                        <li>
+                            <button id="dark-mode-toggle" class="p-1 rounded-full hover:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none transition-colors duration-200">
+                                <svg class="w-6 h-6 sun-icon hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                                </svg>
+                                <svg class="w-6 h-6 moon-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                                </svg>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+                <button class="md:hidden text-white focus:outline-none" id="mobile-menu-button">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <!-- Mobile menu, hidden by default -->
+            <div class="md:hidden hidden" id="mobile-menu">
+                <ul class="pt-4 pb-2 space-y-3">
+                    <li><a href="../index.html" class="block hover:text-blue-200 transition-colors duration-200">Home</a></li>
+                    <li><a href="training.html" class="block hover:text-blue-200 transition-colors duration-200">Training</a></li>
+                    <li><a href="resources.html" class="block hover:text-blue-200 transition-colors duration-200">Resources</a></li>
+                    <li><a href="get-active.html" class="block hover:text-blue-200 transition-colors duration-200">Get Active</a></li>
+                    <li><a href="about.html" class="block hover:text-blue-200 transition-colors duration-200">About</a></li>
+                    <li class="flex items-center">
+                        <span class="mr-2">Dark Mode</span>
+                        <button id="mobile-dark-mode-toggle" class="p-1 rounded-full hover:bg-blue-700 focus:outline-none transition-colors duration-200">
+                            <svg class="w-5 h-5 sun-icon hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <svg class="w-5 h-5 moon-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 mb-12">
+        <!-- Page Header -->
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-blue-900 rounded-xl shadow-lg p-8 mb-12 dark-transition">
+            <div class="flex items-center gap-4 mb-4">
+                <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                </svg>
+                <div>
+                    <h1 class="text-4xl font-bold text-blue-800 dark:text-blue-200">Advanced OSINT Curriculum</h1>
+                    <p class="text-gray-700 dark:text-gray-300 mt-2">Comprehensive professional-grade training roadmap</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Markdown Content -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 dark-transition markdown-content">
+            <div id="markdown-container">
+                <p class="text-center text-gray-500 dark:text-gray-400">Loading curriculum...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 dark:bg-gray-900 text-white py-12 dark-transition">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">FreeOSINT<span class="text-blue-400">.org</span></h3>
+                    <p class="text-gray-400">Your premier resource for Open Source Intelligence training and education, featuring professional-grade modules designed for real-world applications.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="../index.html" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="training.html" class="text-gray-400 hover:text-white transition-colors">Training</a></li>
+                        <li><a href="resources.html" class="text-gray-400 hover:text-white transition-colors">Resources</a></li>
+                        <li><a href="get-active.html" class="text-gray-400 hover:text-white transition-colors">Get Active</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">About</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <p class="text-gray-400 mb-2">Have questions or feedback?</p>
+                    <p class="text-gray-400"><a href="mailto:arctic.framework@gmail.com" class="text-blue-400 hover:text-blue-300">arctic.framework@gmail.com</a></p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 FreeOSINT. All rights reserved. This is an open-source project powered by volunteers.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/dark-mode.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        // Load and render markdown
+        async function loadMarkdown() {
+            try {
+                const response = await fetch('../docs/advanced-curriculum-plan.md');
+                const markdown = await response.text();
+                
+                // Configure marked options
+                marked.setOptions({
+                    breaks: true,
+                    gfm: true,
+                    headerIds: true,
+                    mangle: false
+                });
+                
+                // Convert markdown to HTML
+                const html = marked.parse(markdown);
+                
+                // Render HTML
+                document.getElementById('markdown-container').innerHTML = html;
+            } catch (error) {
+                console.error('Error loading markdown:', error);
+                document.getElementById('markdown-container').innerHTML = '<p class="text-red-600 dark:text-red-400">Error loading curriculum. Please try again later.</p>';
+            }
+        }
+        
+        // Load markdown on page load
+        document.addEventListener('DOMContentLoaded', loadMarkdown);
+        
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+    </script>
+</body>
+</html>

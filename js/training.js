@@ -24,6 +24,7 @@ const categoryFilters = document.querySelectorAll('.category-filter');
 let currentModule = null;
 let currentSectionIndex = 0;
 let userAnswers = {};
+let correctAnswers = {};
 let currentCategory = 'all';
 let allModules = [];
 
@@ -330,6 +331,20 @@ function displayModules(modules) {
         image.alt = module.title;
         imageContainer.appendChild(image);
         
+        // Check if module is completed and add completion badge
+        let isCompleted = false;
+        if (window.cookieManager && typeof window.cookieManager.isModuleCompleted === 'function') {
+            isCompleted = window.cookieManager.isModuleCompleted(module.id);
+        }
+        
+        if (isCompleted) {
+            const completedBadge = document.createElement('div');
+            completedBadge.className = 'absolute top-3 right-3 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1 shadow-lg';
+            completedBadge.innerHTML = '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Completed';
+            imageContainer.appendChild(completedBadge);
+            imageContainer.style.position = 'relative';
+        }
+        
         // Create the content container
         const contentContainer = document.createElement('div');
         contentContainer.className = 'content';
@@ -431,6 +446,10 @@ function formatDuration(minutes) {
 async function loadModule(module) {
     try {
         console.log(`Loading module: ${module.id}`);
+        
+        // Reset quiz tracking for new module
+        correctAnswers = {};
+        userAnswers = {};
         
         // Show module content view, hide module list
         if (modulesList) modulesList.classList.add('hidden');
@@ -637,8 +656,8 @@ function loadSection(index) {
         
         if (nextSectionButton) {
             const isLastSection = currentSectionIndex >= currentModule.sections.length - 1;
-            nextSectionButton.disabled = isLastSection;
-            nextSectionButton.classList.toggle('opacity-50', isLastSection);
+            nextSectionButton.disabled = false;
+            nextSectionButton.classList.remove('opacity-50');
             
             // Change text for last section
             nextSectionButton.textContent = isLastSection ? 'Complete' : 'Next';
@@ -721,6 +740,11 @@ function renderSection(section) {
     
     // Handle different section types
     if (section.type === 'quiz') {
+        // Disable next button if this is a quiz section (will be enabled when quiz is answered correctly)
+        if (nextSectionButton) {
+            nextSectionButton.disabled = true;
+            nextSectionButton.classList.add('opacity-50', 'cursor-not-allowed');
+        }
         renderQuiz(sectionElement, section);
     } else if (section.type === 'matching') {
         renderMatching(sectionElement, section);
@@ -793,6 +817,45 @@ function updateProgress() {
     if (progressBar) {
         const percentage = ((currentSectionIndex + 1) / totalSections) * 100;
         progressBar.style.width = `${percentage}%`;
+    }
+}
+
+// Check if current section's quiz is answered correctly
+function isCurrentSectionCompleted() {
+    if (!currentModule || !currentModule.sections) return true;
+    
+    const section = currentModule.sections[currentSectionIndex];
+    if (!section) return true;
+    
+    // If it's a quiz, check if it was answered correctly
+    if (section.type === 'quiz') {
+        const questionKey = section.title;
+        return correctAnswers[questionKey] === true;
+    }
+    
+    // Non-quiz sections are always considered complete
+    return true;
+}
+
+// Update the next button state based on section type
+function updateNextButtonState() {
+    if (!nextSectionButton || !currentModule) return;
+    
+    const section = currentModule.sections[currentSectionIndex];
+    if (!section) return;
+    
+    // If it's a quiz and not answered correctly, disable the button
+    if (section.type === 'quiz') {
+        const questionKey = section.title;
+        const isAnswered = correctAnswers[questionKey] === true;
+        
+        if (isAnswered) {
+            nextSectionButton.disabled = false;
+            nextSectionButton.classList.remove('opacity-50', 'cursor-not-allowed');
+        } else {
+            nextSectionButton.disabled = true;
+            nextSectionButton.classList.add('opacity-50', 'cursor-not-allowed');
+        }
     }
 }
 
@@ -1083,6 +1146,14 @@ function renderQuiz(container, section) {
                     <span>${section.incorrectMessage || 'Incorrect. Try again!'}</span>
                 </div>
                 ${section.explanation ? `<p class="mt-2">${section.explanation}</p>` : ''}
+                <div class="mt-4 flex gap-3">
+                    <button id="retry-quiz-btn" class="px-4 py-2 bg-orange-600 dark:bg-orange-700 text-white rounded-lg hover:bg-orange-700 dark:hover:bg-orange-600 transition-colors font-medium flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Retry Question
+                    </button>
+                </div>
             `;
         }
         
@@ -1091,6 +1162,39 @@ function renderQuiz(container, section) {
         // Disable the submit button after answering
         submitButton.disabled = true;
         submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+        
+        // Add retry button functionality for incorrect answers
+        if (!isCorrect) {
+            setTimeout(() => {
+                const retryBtn = document.getElementById('retry-quiz-btn');
+                if (retryBtn) {
+                    retryBtn.addEventListener('click', () => {
+                        // Clear selection
+                        document.querySelectorAll(`input[name="quiz-${section.title.replace(/\s+/g, '-').toLowerCase()}"]`).forEach(input => {
+                            input.checked = false;
+                        });
+                        
+                        // Reset option styling
+                        document.querySelectorAll(`.quiz-option[data-value]`).forEach(el => {
+                            el.classList.remove('selected', 'correct', 'incorrect', 'border-blue-500', 'dark:border-blue-400', 'border-green-500', 'dark:border-green-400', 'border-red-500', 'dark:border-red-400', 'bg-blue-50', 'dark:bg-blue-900/30', 'bg-green-50', 'dark:bg-green-900/30', 'bg-red-50', 'dark:bg-red-900/30');
+                            el.classList.add('border-gray-200', 'dark:border-gray-700', 'bg-gray-50', 'dark:bg-gray-700');
+                        });
+                        
+                        // Reset feedback and button
+                        resultContainer.classList.add('hidden');
+                        submitButton.disabled = false;
+                        submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                    });
+                }
+            }, 0);
+        }
+        
+        // Mark answer as correct/incorrect
+        const questionKey = section.title;
+        correctAnswers[questionKey] = isCorrect;
+        
+        // Update the Next button state
+        updateNextButtonState();
     });
     
     quizFooter.appendChild(submitButton);
@@ -1697,22 +1801,69 @@ function setupEventListeners() {
             } else {
                 // This is the last section, mark the module as complete
                 if (currentModule && currentModule.id) {
-                    // Show completion message
+                    // Mark module as completed in both localStorage and cookies
+                    if (window.userProgress && typeof window.userProgress.completeModule === 'function') {
+                        window.userProgress.completeModule(currentModule.id);
+                    }
+                    
+                    // Also mark via cookies directly
+                    if (window.cookieManager && typeof window.cookieManager.setModuleCompleted === 'function') {
+                        window.cookieManager.setModuleCompleted(currentModule.id);
+                    }
+                    
+                    // Show completion message with return to main menu button
                     if (sectionContainer) {
                         sectionContainer.innerHTML = `
-                            <div class="bg-green-50 dark:bg-green-900/30 border-l-4 border-green-500 dark:border-green-600 p-6 mb-6">
-                                <h3 class="text-xl font-bold text-green-700 dark:text-green-400 mb-2">Module Completed!</h3>
-                                <p class="text-green-700 dark:text-green-400">Congratulations on completing this module.</p>
-                            </div>
-                            <div class="flex justify-between mt-8">
-                                <button onclick="window.location.href = 'training.html'" class="bg-blue-600 dark:bg-blue-700 text-white px-6 py-3 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
-                                    Back to Modules
-                                </button>
-                                <button onclick="window.location.reload()" class="bg-green-600 dark:bg-green-700 text-white px-6 py-3 rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors">
-                                    Restart Module
-                                </button>
+                            <div class="text-center py-12">
+                                <div class="mb-8 animate-bounce">
+                                    <svg class="w-24 h-24 mx-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <h2 class="text-4xl font-bold text-green-700 dark:text-green-400 mb-4">Congratulations!</h2>
+                                <p class="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-2">You've completed the</p>
+                                <h3 class="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-6">"${currentModule.title}" Training Module</h3>
+                                <p class="text-lg text-gray-700 dark:text-gray-300 mb-8">Your progress has been saved and this module is now marked as complete!</p>
+                                <div class="flex justify-center gap-4">
+                                    <button id="return-to-menu" class="bg-blue-600 dark:bg-blue-700 text-white px-8 py-3 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors font-semibold text-lg">
+                                        Return to Main Menu
+                                    </button>
+                                    <button id="restart-module" class="bg-green-600 dark:bg-green-700 text-white px-8 py-3 rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors font-semibold text-lg">
+                                        Restart Module
+                                    </button>
+                                </div>
                             </div>
                         `;
+                        
+                        // Add event listeners to the new buttons
+                        const returnToMenuBtn = document.getElementById('return-to-menu');
+                        const restartModuleBtn = document.getElementById('restart-module');
+                        
+                        if (returnToMenuBtn) {
+                            returnToMenuBtn.addEventListener('click', () => {
+                                window.location.href = 'training.html';
+                            });
+                        }
+                        
+                        if (restartModuleBtn) {
+                            restartModuleBtn.addEventListener('click', () => {
+                                // Reset module progress
+                                if (window.userProgress && typeof window.userProgress.resetModuleProgress === 'function') {
+                                    window.userProgress.resetModuleProgress(currentModule.id);
+                                }
+                                // Reload the module
+                                loadSection(0);
+                                updateProgress();
+                            });
+                        }
+                    }
+                    
+                    // Update progress bar to 100%
+                    if (progressBar) {
+                        progressBar.style.width = '100%';
+                    }
+                    if (progressText) {
+                        progressText.textContent = `Module Complete!`;
                     }
                 }
             }

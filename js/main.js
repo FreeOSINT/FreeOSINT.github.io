@@ -42,6 +42,64 @@ const userProgress = {
         progress.currentSection = 0;
         progress.completedSections = [];
         this.saveModuleProgress(moduleId, progress);
+    },
+    
+    // Mark entire module as completed
+    completeModule: function(moduleId) {
+        const progress = this.getModuleProgress(moduleId);
+        progress.completed = true;
+        progress.completedDate = new Date().toISOString();
+        this.saveModuleProgress(moduleId, progress);
+        // Also set a cookie for the module completion
+        cookieManager.setModuleCompleted(moduleId);
+        return progress;
+    }
+};
+
+// Cookie management for tracking completed modules
+const cookieManager = {
+    // Set a cookie for module completion (expires in 1 year)
+    setModuleCompleted: function(moduleId) {
+        const expiryDate = new Date();
+        expiryDate.setFullYear(expiryDate.getFullYear() + 1);
+        
+        const completedModules = this.getCompletedModules();
+        if (!completedModules.includes(moduleId)) {
+            completedModules.push(moduleId);
+            document.cookie = `freeosint_completed=${JSON.stringify(completedModules)}; expires=${expiryDate.toUTCString()}; path=/`;
+        }
+    },
+    
+    // Get all completed modules from cookie
+    getCompletedModules: function() {
+        const name = 'freeosint_completed=';
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const cookieArray = decodedCookie.split(';');
+        
+        for (let cookie of cookieArray) {
+            cookie = cookie.trim();
+            if (cookie.indexOf(name) === 0) {
+                try {
+                    return JSON.parse(cookie.substring(name.length));
+                } catch (e) {
+                    return [];
+                }
+            }
+        }
+        return [];
+    },
+    
+    // Check if a module is completed
+    isModuleCompleted: function(moduleId) {
+        const completedModules = this.getCompletedModules();
+        return completedModules.includes(moduleId);
+    },
+    
+    // Clear all completed modules (for testing)
+    clearAllCompleted: function() {
+        const expiryDate = new Date();
+        expiryDate.setFullYear(expiryDate.getFullYear() - 1);
+        document.cookie = `freeosint_completed=; expires=${expiryDate.toUTCString()}; path=/`;
     }
 };
 

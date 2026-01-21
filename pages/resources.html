@@ -103,7 +103,6 @@
                         <li><a href="resources.html" class="hover:text-blue-200 transition-colors duration-200 font-bold border-b-2 border-blue-300">Resources</a></li>
                         <li><a href="get-active.html" class="hover:text-blue-200 transition-colors duration-200">Get Active</a></li>
                         <li><a href="about.html" class="hover:text-blue-200 transition-colors duration-200">About</a></li>
-                        <li><a href="../docs/advanced-curriculum-plan.md" class="hover:text-blue-200 transition-colors duration-200">Curriculum</a></li>
                         <li>
                             <button id="dark-mode-toggle" class="p-1 rounded-full hover:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none transition-colors duration-200">
                                 <svg class="w-6 h-6 sun-icon hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -130,7 +129,6 @@
                     <li><a href="resources.html" class="block hover:text-blue-200 transition-colors duration-200 font-medium">Resources</a></li>
                     <li><a href="get-active.html" class="block hover:text-blue-200 transition-colors duration-200">Get Active</a></li>
                     <li><a href="about.html" class="block hover:text-blue-200 transition-colors duration-200">About</a></li>
-                    <li><a href="../docs/advanced-curriculum-plan.md" class="block hover:text-blue-200 transition-colors duration-200">Curriculum</a></li>
                     <li class="flex items-center">
                         <span class="mr-2">Dark Mode</span>
                         <button id="mobile-dark-mode-toggle" class="p-1 rounded-full hover:bg-blue-700 focus:outline-none transition-colors duration-200">
@@ -716,6 +714,154 @@
         </div>
     </main>
 
+    <!-- Google Dorking Cheat Sheet Section -->
+    <section class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 py-16 dark-transition">
+        <div class="container mx-auto px-4">
+            <div class="mb-12">
+                <div class="inline-block px-4 py-2 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 rounded-full text-sm font-semibold mb-4">
+                    Reference Guide
+                </div>
+                <h2 class="text-4xl font-bold text-gray-800 dark:text-white mb-4">Google Dorking Cheat Sheet</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">Master advanced search operators to find specific information online. These operators can be combined for powerful searches.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Basic Operators -->
+                <div class="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6 dark-transition">
+                    <h3 class="text-xl font-bold text-blue-700 dark:text-blue-400 mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10.5 1.5H5.75A2.25 2.25 0 003.5 3.75v12.5A2.25 2.25 0 005.75 18.5h8.5a2.25 2.25 0 002.25-2.25V6.5m-11-2h8m-8 4h8m-8 4h5" clip-rule="evenodd"></path></svg>
+                        Basic Operators
+                    </h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="border-l-4 border-blue-500 pl-3">
+                            <code class="text-red-600 dark:text-red-400 font-mono">site:</code>
+                            <p class="text-gray-700 dark:text-gray-300">Search within a specific website<br><span class="text-xs">Example: <code class="bg-gray-100 dark:bg-gray-800 px-1">site:example.com OSINT</code></span></p>
+                        </div>
+                        <div class="border-l-4 border-blue-500 pl-3">
+                            <code class="text-red-600 dark:text-red-400 font-mono">inurl:</code>
+                            <p class="text-gray-700 dark:text-gray-300">URL contains specific words<br><span class="text-xs">Example: <code class="bg-gray-100 dark:bg-gray-800 px-1">inurl:admin</code></span></p>
+                        </div>
+                        <div class="border-l-4 border-blue-500 pl-3">
+                            <code class="text-red-600 dark:text-red-400 font-mono">intitle:</code>
+                            <p class="text-gray-700 dark:text-gray-300">Page title contains specific words<br><span class="text-xs">Example: <code class="bg-gray-100 dark:bg-gray-800 px-1">intitle:index of</code></span></p>
+                        </div>
+                        <div class="border-l-4 border-blue-500 pl-3">
+                            <code class="text-red-600 dark:text-red-400 font-mono">intext:</code>
+                            <p class="text-gray-700 dark:text-gray-300">Page body contains specific words<br><span class="text-xs">Example: <code class="bg-gray-100 dark:bg-gray-800 px-1">intext:"confidential"</code></span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Type Operators -->
+                <div class="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6 dark-transition">
+                    <h3 class="text-xl font-bold text-green-700 dark:text-green-400 mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 012-2h6a1 1 0 00-.707.293l-2.828 2.829A1 1 0 0008 5H4zm2 2a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2V8a2 2 0 00-2-2H6z"></path></svg>
+                        File Type Search
+                    </h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="border-l-4 border-green-500 pl-3">
+                            <code class="text-red-600 dark:text-red-400 font-mono">filetype:</code>
+                            <p class="text-gray-700 dark:text-gray-300">Find specific file types<br><span class="text-xs">Example: <code class="bg-gray-100 dark:bg-gray-800 px-1">filetype:pdf confidential</code></span></p>
+                        </div>
+                        <div class="border-l-4 border-green-500 pl-3">
+                            <p class="text-gray-700 dark:text-gray-300"><strong>Common file types:</strong><br><span class="text-xs">.pdf, .doc, .xls, .ppt, .txt, .zip</span></p>
+                        </div>
+                        <div class="border-l-4 border-green-500 pl-3">
+                            <code class="text-red-600 dark:text-red-400 font-mono">ext:</code>
+                            <p class="text-gray-700 dark:text-gray-300">Alternative to filetype<br><span class="text-xs">Example: <code class="bg-gray-100 dark:bg-gray-800 px-1">ext:sql database</code></span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Operators -->
+                <div class="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6 dark-transition">
+                    <h3 class="text-xl font-bold text-purple-700 dark:text-purple-400 mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z"></path></svg>
+                        Advanced Operators
+                    </h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="border-l-4 border-purple-500 pl-3">
+                            <code class="text-red-600 dark:text-red-400 font-mono">cache:</code>
+                            <p class="text-gray-700 dark:text-gray-300">View Google's cached version<br><span class="text-xs">Example: <code class="bg-gray-100 dark:bg-gray-800 px-1">cache:example.com</code></span></p>
+                        </div>
+                        <div class="border-l-4 border-purple-500 pl-3">
+                            <code class="text-red-600 dark:text-red-400 font-mono">related:</code>
+                            <p class="text-gray-700 dark:text-gray-300">Find similar websites<br><span class="text-xs">Example: <code class="bg-gray-100 dark:bg-gray-800 px-1">related:wikipedia.org</code></span></p>
+                        </div>
+                        <div class="border-l-4 border-purple-500 pl-3">
+                            <code class="text-red-600 dark:text-red-400 font-mono">link:</code>
+                            <p class="text-gray-700 dark:text-gray-300">Find pages linking to a URL<br><span class="text-xs">Example: <code class="bg-gray-100 dark:bg-gray-800 px-1">link:example.com</code></span></p>
+                        </div>
+                        <div class="border-l-4 border-purple-500 pl-3">
+                            <code class="text-red-600 dark:text-red-400 font-mono">info:</code>
+                            <p class="text-gray-700 dark:text-gray-300">Get info about a website<br><span class="text-xs">Example: <code class="bg-gray-100 dark:bg-gray-800 px-1">info:example.com</code></span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Modifiers -->
+                <div class="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6 dark-transition">
+                    <h3 class="text-xl font-bold text-orange-700 dark:text-orange-400 mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+                        Search Modifiers
+                    </h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="border-l-4 border-orange-500 pl-3">
+                            <code class="text-red-600 dark:text-red-400 font-mono">""</code>
+                            <p class="text-gray-700 dark:text-gray-300">Exact phrase match<br><span class="text-xs">Example: <code class="bg-gray-100 dark:bg-gray-800 px-1">"exact phrase"</code></span></p>
+                        </div>
+                        <div class="border-l-4 border-orange-500 pl-3">
+                            <code class="text-red-600 dark:text-red-400 font-mono">*</code>
+                            <p class="text-gray-700 dark:text-gray-300">Wildcard (unknown word)<br><span class="text-xs">Example: <code class="bg-gray-100 dark:bg-gray-800 px-1">OSINT * techniques</code></span></p>
+                        </div>
+                        <div class="border-l-4 border-orange-500 pl-3">
+                            <code class="text-red-600 dark:text-red-400 font-mono">-</code>
+                            <p class="text-gray-700 dark:text-gray-300">Exclude terms<br><span class="text-xs">Example: <code class="bg-gray-100 dark:bg-gray-800 px-1">OSINT -tutorial</code></span></p>
+                        </div>
+                        <div class="border-l-4 border-orange-500 pl-3">
+                            <code class="text-red-600 dark:text-red-400 font-mono">OR</code>
+                            <p class="text-gray-700 dark:text-gray-300">Either term (case-sensitive)<br><span class="text-xs">Example: <code class="bg-gray-100 dark:bg-gray-800 px-1">OSINT OR intelligence</code></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Combination Examples -->
+            <div class="bg-blue-50 dark:bg-gray-700 rounded-lg shadow-lg p-6 mt-8 dark-transition border-l-4 border-blue-500">
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Example Combinations</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded">
+                        <code class="text-red-600 dark:text-red-400 font-mono text-xs">site:example.com intitle:admin</code>
+                        <p class="text-gray-600 dark:text-gray-300 text-xs mt-1">Find admin pages on specific site</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded">
+                        <code class="text-red-600 dark:text-red-400 font-mono text-xs">filetype:pdf confidential site:gov</code>
+                        <p class="text-gray-600 dark:text-gray-300 text-xs mt-1">Find government PDFs with keyword</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded">
+                        <code class="text-red-600 dark:text-red-400 font-mono text-xs">inurl:backup -site:github.com</code>
+                        <p class="text-gray-600 dark:text-gray-300 text-xs mt-1">Find backups excluding GitHub</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-3 rounded">
+                        <code class="text-red-600 dark:text-red-400 font-mono text-xs">"password" OR "api_key" filetype:env</code>
+                        <p class="text-gray-600 dark:text-gray-300 text-xs mt-1">Find exposed environment files</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ethical Considerations -->
+            <div class="bg-yellow-50 dark:bg-yellow-900/20 border-2 border-yellow-400 dark:border-yellow-700 rounded-lg p-6 mt-8 dark-transition">
+                <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                    <div>
+                        <h4 class="font-bold text-yellow-800 dark:text-yellow-300">Important Ethical Considerations</h4>
+                        <p class="text-yellow-700 dark:text-yellow-200 text-sm mt-1">Always use these tools responsibly. Respect robots.txt files, don't overload servers, and comply with applicable laws and website terms of service. Use this knowledge for legitimate research and security purposes only.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer class="bg-gray-800 dark:bg-gray-900 text-white py-12 dark-transition">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between">
@@ -748,7 +894,6 @@
                         <li><a href="training.html" class="text-gray-400 hover:text-white transition-colors">Training</a></li>
                         <li><a href="resources.html" class="text-gray-400 hover:text-white transition-colors">Resources</a></li>
                         <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">About</a></li>
-                        <li><a href="../docs/advanced-curriculum-plan.md" class="text-gray-400 hover:text-white transition-colors">Curriculum</a></li>
                     </ul>
                 </div>
                 
