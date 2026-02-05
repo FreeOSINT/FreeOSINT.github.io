@@ -1,24 +1,269 @@
 {
-  "id": "digital-footprint",
-  "title": "Digital Footprint Analysis",
-  "description": "Learn how to analyze and interpret digital footprints to gather intelligence about individuals and organizations.",
+  "id": "digital-footprint-analysis-osint",
+  "title": "Advanced Digital Footprint Analysis: OSINT Techniques for Comprehensive Online Investigation",
+  "description": "Master advanced techniques for analyzing digital footprints to gather intelligence about individuals and organizations, including username correlation, email analysis, social media investigation, and ethical considerations.",
   "difficulty": "Intermediate",
-  "duration": 90,
-  "image": "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+  "duration": 180,
+  "image": "images/digital-footprint.jpg",
   "featured": true,
-  "tags": ["digital footprint", "online presence", "data analysis"],
+  "tags": ["digital footprint", "username analysis", "email investigation", "social media", "reverse image search", "data correlation", "privacy", "ethics", "OSINT"],
   "sections": [
     {
-      "title": "Understanding Digital Footprints",
-      "content": "<p>A digital footprint is the trail of data that users leave behind when using digital services. This includes:</p><ul><li>Social media activity</li><li>Website registrations</li><li>Online purchases</li><li>Comments and forum posts</li><li>Email communications</li><li>App usage</li><li>Location data</li></ul><p>Digital footprints can be either active (deliberately created) or passive (created without the user's direct knowledge).</p>"
+      "title": "Introduction to Digital Footprint Analysis",
+      "content": "<p>Digital footprint analysis is a cornerstone of modern OSINT investigation. Every online interaction leaves traces that can be systematically collected and analyzed to build comprehensive profiles of individuals, organizations, and their digital activities.</p><div class='content-important'><strong>Key Insight:</strong> Digital footprints are not just about what people post publicly—they include passive data, metadata, and interconnected relationships that reveal patterns of behavior and associations.</div><p>This module will teach you systematic approaches to:</p><ul><li>Identify and correlate usernames across multiple platforms</li><li>Analyze email addresses for associated accounts and services</li><li>Conduct thorough social media investigations</li><li>Use reverse image search for identity verification</li><li>Apply ethical frameworks to ensure legal compliance</li></ul>"
     },
     {
-      "title": "Tools for Digital Footprint Analysis",
-      "content": "<p>Several tools can help analyze digital footprints:</p><ul><li><strong>Username search tools</strong>: Find accounts across multiple platforms</li><li><strong>Email analysis tools</strong>: Discover accounts linked to email addresses</li><li><strong>Reverse image search</strong>: Find instances of images across the web</li><li><strong>Domain and IP lookup tools</strong>: Identify website ownership and hosting</li><li><strong>Archive services</strong>: Access historical versions of web content</li></ul><p>These tools help investigators piece together a comprehensive picture of an individual's or organization's online presence.</p>"
+      "title": "Understanding Digital Footprint Types",
+      "content": "<p>Digital footprints can be categorized into two main types, each requiring different investigative approaches:</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Active Digital Footprints</h4><p>These are intentionally created by users:</p><ul><li>Social media posts and profiles</li><li>Blog comments and forum participation</li><li>Online reviews and ratings</li><li>Publicly shared photos and videos</li><li>Website registrations and account creation</li></ul><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Passive Digital Footprints</h4><p>These are created without direct user action:</p><ul><li>IP address logs and geolocation data</li><li>Browser cookies and tracking pixels</li><li>Metadata embedded in files</li><li>Server access logs</li><li>Third-party data collection</li></ul><div class='content-tip'><strong>Investigation Strategy:</strong> Active footprints provide direct evidence of user behavior, while passive footprints often reveal more subtle patterns and connections that users may not be aware of.</div>"
     },
     {
-      "title": "Ethical Considerations",
-      "content": "<p>When analyzing digital footprints, investigators must consider:</p><ul><li>Privacy laws and regulations</li><li>Terms of service of platforms</li><li>Ethical boundaries</li><li>Data protection requirements</li><li>Potential for misidentification</li></ul><p>Always ensure that digital footprint analysis is conducted for legitimate purposes and with appropriate authorization.</p>"
+      "title": "Username Analysis and Correlation",
+      "content": "<p>Username analysis is often the starting point for digital footprint investigations. A single username can lead to multiple accounts across different platforms, creating a web of interconnected data.</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Username Patterns and Variations</h4><p>Users often employ patterns when creating usernames:</p><ul><li>Consistent base name with platform-specific suffixes</li><li>Professional vs. personal username variations</li><li>Age-related patterns (birth years, graduation years)</li><li>Geographic indicators (city codes, area codes)</li><li>Professional affiliations (company names, job titles)</li></ul><div class='content-example'><strong>Example Investigation:</strong> The username 'techguy2020' might appear as 'techguy2020' on Twitter, 'techguy_2020' on Instagram, and 'techguy2020official' on YouTube.</div><p>Systematic username investigation involves:</p><ol><li>Starting with known usernames from target profiles</li><li>Generating variations and checking multiple platforms</li><li>Documenting all discovered accounts</li><li>Correlating information across platforms</li><li>Identifying patterns that suggest the same individual</li></ol>",
+      "resources": [
+        {
+          "title": "Username Search Tools",
+          "url": "https://whatsmyname.app/",
+          "description": "Comprehensive username search across 600+ platforms"
+        },
+        {
+          "title": "Social Searcher",
+          "url": "https://www.social-searcher.com/",
+          "description": "Advanced social media search and monitoring tool"
+        }
+      ]
+    },
+    {
+      "title": "Username Correlation Exercise",
+      "type": "matching",
+      "pairs": [
+        {
+          "term": "Username variations",
+          "definition": "Different versions of the same base username across platforms"
+        },
+        {
+          "term": "Username patterns",
+          "definition": "Consistent naming conventions that suggest the same individual"
+        },
+        {
+          "term": "Cross-platform correlation",
+          "definition": "Linking accounts across different services using username analysis"
+        },
+        {
+          "term": "Username entropy",
+          "definition": "Randomness level that affects searchability and uniqueness"
+        }
+      ],
+      "shuffle": true,
+      "successMessage": "Excellent! You understand the fundamentals of username analysis.",
+      "incorrectMessage": "Review the username analysis concepts and try again.",
+      "points": 25
+    },
+    {
+      "title": "Email Address Investigation Techniques",
+      "content": "<p>Email addresses are powerful investigative tools that can reveal extensive information about an individual's online presence and activities.</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Email Analysis Approaches</h4><p>Systematic email investigation includes:</p><ul><li><strong>Username extraction:</strong> The local part (before @) often serves as a username</li><li><strong>Domain analysis:</strong> Corporate, educational, or free email providers reveal affiliations</li><li><strong>Account discovery:</strong> Finding services registered with the email</li><li><strong>Historical analysis:</strong> Tracking email usage over time</li><li><strong>Associated accounts:</strong> Identifying linked social media and service accounts</li></ul><div class='content-important'><strong>Privacy Considerations:</strong> Email investigation must respect privacy laws and platform terms of service. Focus on publicly available information and legitimate investigative purposes.</div><p>Common email patterns include:</p><ul><li>firstname.lastname@domain.com</li><li>initials + numbers@domain.com</li><li>nicknames or handles@domain.com</li><li>professional vs. personal email variations</li></ul>",
+      "resources": [
+        {
+          "title": "Email Investigation Tools",
+          "url": "https://epieos.com/",
+          "description": "Comprehensive email analysis and account discovery"
+        },
+        {
+          "title": "Have I Been Pwned",
+          "url": "https://haveibeenpwned.com/",
+          "description": "Check if email addresses have been compromised in data breaches"
+        }
+      ]
+    },
+    {
+      "title": "Email Investigation Quiz",
+      "type": "quiz",
+      "question": "Which of the following email addresses would be most valuable for OSINT investigation?",
+      "options": [
+        "user123@gmail.com",
+        "john.doe@acme-corp.com",
+        "anonymous@protonmail.com",
+        "test@example.com"
+      ],
+      "correctAnswer": "john.doe@acme-corp.com",
+      "explanation": "Corporate email addresses provide both username information (john.doe) and organizational affiliation (acme-corp.com), making them highly valuable for OSINT investigation.",
+      "shuffle": true,
+      "successMessage": "Correct! Corporate emails provide rich investigative leads.",
+      "incorrectMessage": "Review the email investigation techniques and try again.",
+      "points": 20
+    },
+    {
+      "title": "Social Media Investigation Strategies",
+      "content": "<p>Social media platforms are treasure troves of digital footprint data, but require systematic approaches to extract maximum value.</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Platform-Specific Investigation Techniques</h4><p>Each platform has unique characteristics and data availability:</p><ul><li><strong>Facebook:</strong> Friends networks, location history, life events, groups</li><li><strong>Twitter/X:</strong> Following patterns, tweet history, engagement analysis</li><li><strong>LinkedIn:</strong> Professional history, skills, endorsements, company affiliations</li><li><strong>Instagram:</strong> Visual content, geotags, story patterns, engagement</li><li><strong>TikTok:</strong> Content themes, duets, collaborations, trending participation</li></ul><div class='content-tip'><strong>Investigation Tip:</strong> Look beyond the primary profile. Check comments, shares, mentions, and interactions to build a more complete picture.</div><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Temporal Analysis</h4><p>Understanding posting patterns over time reveals:</p><ul><li>Geographic movements (through timezone analysis)</li><li>Lifestyle changes (job changes, relationship status)</li><li>Behavioral patterns (activity peaks, content themes)</li><li>Network evolution (changing connections and interactions)</li></ul>",
+      "resources": [
+        {
+          "title": "Social Media Analysis Tools",
+          "url": "https://twintproject.github.io/",
+          "description": "Advanced Twitter data mining tool"
+        },
+        {
+          "title": "Social Mapper",
+          "url": "https://github.com/SpiderLabs/social_mapper",
+          "description": "Correlate social media profiles across platforms using facial recognition"
+        }
+      ]
+    },
+    {
+      "title": "Reverse Image Search and Visual Analysis",
+      "content": "<p>Images contain valuable metadata and can be found across multiple platforms, making them powerful tools for digital footprint analysis.</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Reverse Image Search Techniques</h4><p>Systematic image investigation includes:</p><ul><li><strong>Google Images:</strong> Upload or paste image URL for comprehensive search</li><li><strong>Tineye:</strong> Specialized reverse image search with historical data</li><li><strong>Bing Image Search:</strong> Alternative search engine with different indexing</li><li><strong>Yandex:</strong> Particularly effective for Russian and Eastern European content</li></ul><div class='content-important'><strong>Metadata Analysis:</strong> EXIF data in images can reveal camera information, GPS coordinates, timestamps, and editing software used.</div><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Image Verification Process</h4><p>When analyzing images for OSINT purposes:</p><ol><li>Perform reverse image search across multiple engines</li><li>Check for image manipulation or editing</li><li>Extract and analyze metadata (if available)</li><li>Compare with known authentic images</li><li>Document all findings and sources</li></ol><p>Common image analysis tools include:</p><ul><li>ExifTool for metadata extraction</li><li>Forensically for image analysis</li><li>AmpliFIND for enhanced reverse search</li></ul>",
+      "resources": [
+        {
+          "title": "Reverse Image Search Tools",
+          "url": "https://images.google.com/",
+          "description": "Google Images reverse search functionality"
+        },
+        {
+          "title": "TinEye",
+          "url": "https://tineye.com/",
+          "description": "Professional reverse image search with historical data"
+        },
+        {
+          "title": "ExifTool",
+          "url": "https://exiftool.org/",
+          "description": "Comprehensive metadata extraction tool"
+        }
+      ]
+    },
+    {
+      "title": "Image Analysis Scenario",
+      "type": "scenario",
+      "scenario": "You've been provided with a profile picture from a social media account. The image shows a person standing in front of a building with distinctive architecture. The account claims the person works in New York City.",
+      "question": "What is the most effective first step to verify the location and potentially identify the building?",
+      "options": [
+        "Perform a reverse image search to find other instances of the same image",
+        "Analyze the EXIF metadata for GPS coordinates",
+        "Use facial recognition to identify the person",
+        "Search for similar buildings in New York City"
+      ],
+      "correctAnswer": "Perform a reverse image search to find other instances of the same image",
+      "explanation": "Reverse image search is the most effective first step as it can quickly reveal if the image has been used elsewhere, potentially with location information or context that wasn't provided in the original post.",
+      "successMessage": "Excellent investigative approach! Reverse image search often reveals crucial context.",
+      "incorrectMessage": "Consider starting with broader search techniques before specialized analysis.",
+      "points": 30
+    },
+    {
+      "title": "Data Correlation and Pattern Analysis",
+      "content": "<p>The true power of digital footprint analysis comes from correlating data across multiple sources to identify patterns and connections.</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Correlation Techniques</h4><p>Effective data correlation involves:</p><ul><li><strong>Timeline Analysis:</strong> Mapping activities across platforms over time</li><li><strong>Geographic Correlation:</strong> Identifying location patterns from posts, check-ins, and metadata</li><li><strong>Network Analysis:</strong> Mapping connections and relationships between accounts</li><li><strong>Content Analysis:</strong> Identifying themes, interests, and behavioral patterns</li><li><strong>Device Fingerprinting:</strong> Identifying devices used based on metadata and posting patterns</li></ul><div class='content-tip'><strong>Pattern Recognition:</strong> Look for consistencies in posting times, language use, interests, and social connections that suggest the same individual across platforms.</div><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Investigative Framework</h4><p>Systematic correlation follows this framework:</p><ol><li>Collect all available digital footprint data</li><li>Organize data by platform, timestamp, and type</li><li>Identify overlapping information (same usernames, emails, images)</li><li>Map temporal and geographic patterns</li><li>Build a comprehensive profile based on correlations</li><li>Validate findings through cross-referencing</li></ol>",
+      "resources": [
+        {
+          "title": "Maltego",
+          "url": "https://www.maltego.com/",
+          "description": "Professional data visualization and correlation tool"
+        },
+        {
+          "title": "Gephi",
+          "url": "https://gephi.org/",
+          "description": "Open-source network analysis and visualization software"
+        }
+      ]
+    },
+    {
+      "title": "Privacy and Legal Considerations",
+      "content": "<p>Digital footprint analysis must be conducted within legal and ethical boundaries to ensure the investigation's legitimacy and protect individual rights.</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Legal Framework</h4><p>Key legal considerations include:</p><ul><li><strong>GDPR (General Data Protection Regulation):</strong> Applies to EU citizens' data</li><li><strong>CCPA (California Consumer Privacy Act):</strong> Applies to California residents</li><li><strong>Computer Fraud and Abuse Act:</strong> Prohibits unauthorized access to systems</li><li><strong>Platform Terms of Service:</strong> Each platform has specific rules about data usage</li><li><strong>Copyright Law:</strong> Protects creative content and images</li></ul><div class='content-important'><strong>Ethical Guidelines:</strong> Always consider the purpose of your investigation, ensure it serves legitimate objectives, and respect individuals' reasonable expectations of privacy.</div><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Best Practices</h4><p>Follow these principles for ethical digital footprint analysis:</p><ul><li>Only collect publicly available information</li><li>Document sources and methods for transparency</li><li>Consider the potential impact on individuals</li><li>Obtain necessary permissions when required</li><li>Use findings only for legitimate investigative purposes</li><li>Secure and protect collected data appropriately</li></ul>",
+      "resources": [
+        {
+          "title": "GDPR Guidelines",
+          "url": "https://gdpr.eu/",
+          "description": "Comprehensive GDPR information and compliance guidelines"
+        },
+        {
+          "title": "Electronic Frontier Foundation",
+          "url": "https://www.eff.org/",
+          "description": "Digital rights organization providing privacy and legal guidance"
+        }
+      ]
+    },
+    {
+      "title": "Privacy and Ethics True/False",
+      "type": "true-false",
+      "statement": "It is always legal to collect and analyze publicly available information from social media platforms for OSINT purposes.",
+      "correctAnswer": false,
+      "explanation": "Even publicly available information may be subject to platform terms of service, copyright restrictions, or specific legal limitations. Always consider the context and purpose of your investigation.",
+      "successMessage": "Correct! Privacy laws and platform rules can limit even public data usage.",
+      "incorrectMessage": "Review the privacy and legal considerations section.",
+      "points": 15
+    },
+    {
+      "title": "Advanced Investigation Tools and Techniques",
+      "content": "<p>Professional digital footprint analysis often requires specialized tools and advanced techniques to maximize effectiveness and efficiency.</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Professional Tool Categories</h4><p>Advanced tools include:</p><ul><li><strong>Browser Extensions:</strong> Enhanced search capabilities and data extraction</li><li><strong>Command Line Tools:</strong> Automated searching and data collection</li><li><strong>API Integration:</strong> Programmatic access to platform data (where permitted)</li><li><strong>Virtual Machines:</strong> Safe browsing and investigation environments</li><li><strong>VPN Services:</strong> Geographic diversity and privacy protection</li></ul><div class='content-tip'><strong>Tool Selection:</strong> Choose tools based on investigation requirements, legal considerations, and technical capabilities. Always verify tool reliability and security.</div><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Investigation Workflows</h4><p>Professional workflows typically follow this pattern:</p><ol><li>Define investigation objectives and scope</li><li>Identify relevant platforms and data sources</li><li>Collect initial data using appropriate tools</li><li>Correlate findings across sources</li><li>Validate and verify information</li><li>Document findings with proper attribution</li><li>Report results with appropriate context</li></ol>",
+      "resources": [
+        {
+          "title": "OSINT Framework",
+          "url": "https://osintframework.com/",
+          "description": "Comprehensive collection of OSINT tools and resources"
+        },
+        {
+          "title": "Awesome OSINT",
+          "url": "https://github.com/jivoi/awesome-osint",
+          "description": "Curated list of OSINT tools and resources"
+        }
+      ]
+    },
+    {
+      "title": "Case Study: Comprehensive Digital Footprint Investigation",
+      "content": "<p>This case study demonstrates how to apply all the techniques learned in this module to conduct a comprehensive digital footprint investigation.</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Investigation Scenario</h4><p>You are investigating an individual who may be involved in fraudulent activities. You have been provided with:</p><ul><li>A partial email address: john.doe@</li><li>A username: \"techexplorer2020\"</li><li>A profile picture (stock photo suspected)</li><li>Claims of working for \"TechCorp Inc.\"</li></ul><div class='content-example'><strong>Investigation Approach:</strong> Apply systematic analysis starting with username correlation, then email investigation, followed by social media analysis, image verification, and finally data correlation.</div><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Step-by-Step Investigation</h4><ol><li><strong>Username Analysis:</strong> Search for \"techexplorer2020\" across platforms, identify variations</li><li><strong>Email Investigation:</strong> Analyze the email pattern, search for associated accounts</li><li><strong>Image Verification:</strong> Perform reverse image search on the profile picture</li><li><strong>Social Media Analysis:</strong> Examine content, patterns, and network connections</li><li><strong>Data Correlation:</strong> Cross-reference findings to identify inconsistencies</li><li><strong>Validation:</strong> Verify claims about employment and background</li></ol><p>Key findings to look for:</p><ul><li>Inconsistencies in claimed employment</li><li>Multiple accounts suggesting coordinated activity</li><li>Image reuse indicating potential impersonation</li><li>Timeline inconsistencies in posted content</li><li>Geographic inconsistencies in metadata</li></ul>",
+      "resources": [
+        {
+          "title": "Investigation Template",
+          "url": "https://github.com/your-org/investigation-templates",
+          "description": "Template for documenting digital footprint investigations"
+        },
+        {
+          "title": "Case Study Examples",
+          "url": "https://www.bellingcat.com/resources/",
+          "description": "Real-world OSINT case studies and methodologies"
+        }
+      ]
+    },
+    {
+      "title": "Capstone Challenge: Digital Footprint Attribution",
+      "type": "short-answer",
+      "question": "You have been provided with three social media profiles that may belong to the same individual. Profile A shows a software developer in San Francisco, Profile B shows a marketing professional in New York, and Profile C shows a student in Boston. All profiles use different names but share some common elements. Describe your systematic approach to determine if these profiles are connected and what evidence would convince you they belong to the same person.",
+      "minLength": 400,
+      "maxLength": 1500,
+      "keyElements": [
+        "Username and email correlation analysis",
+        "Image and metadata examination",
+        "Posting patterns and timeline analysis",
+        "Network and connection overlap",
+        "Content themes and language patterns",
+        "Geographic and temporal consistency checks"
+      ],
+      "sampleAnswer": "To determine if these three profiles belong to the same individual, I would conduct a systematic investigation starting with username and email correlation. First, I would extract any usernames, email addresses, or contact information from each profile and search for connections or variations. Next, I would perform reverse image search on profile pictures and any shared photos to identify potential reuse or manipulation. I would then analyze posting patterns, looking for consistent activity times that might reveal the same timezone or device usage patterns. The social networks and connections would be examined for overlapping friends, follows, or interactions that could indicate the same person managing multiple accounts. Content analysis would focus on writing style, vocabulary, interests, and themes that might be consistent across profiles. Finally, I would examine any available metadata and check for geographic inconsistencies in the claimed locations versus actual posting patterns. Evidence that would convince me includes: matching email addresses or username variations, identical or manipulated profile images, consistent posting times suggesting the same timezone, overlapping social connections, similar writing styles and interests, and metadata that contradicts the claimed locations. The combination of multiple connecting elements would provide strong evidence of attribution.",
+      "hints": [
+        "Start with the most obvious connections like usernames and emails",
+        "Consider that sophisticated users may use different strategies to avoid detection",
+        "Look for subtle patterns that might be unintentionally consistent",
+        "Remember that absence of evidence can also be evidence"
+      ],
+      "points": 60,
+      "successMessage": "Excellent analysis! You've demonstrated comprehensive understanding of digital footprint attribution techniques.",
+      "incorrectMessage": "Review the investigation techniques and consider a more systematic approach."
+    },
+    {
+      "title": "Module Summary and Best Practices",
+      "content": "<p>This module has equipped you with comprehensive techniques for digital footprint analysis in OSINT investigations. Let's review the key principles and best practices.</p><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Core Principles</h4><ul><li><strong>Systematic Approach:</strong> Always follow a structured methodology for consistent results</li><li><strong>Multiple Sources:</strong> Correlate information across different platforms and data types</li><li><strong>Verification:</strong> Never rely on single pieces of information without validation</li><li><strong>Documentation:</strong> Maintain detailed records of sources, methods, and findings</li><li><strong>Ethical Practice:</strong> Always operate within legal and ethical boundaries</li></ul><div class='content-important'><strong>Continuous Learning:</strong> Digital platforms and technologies evolve rapidly. Stay updated with new tools, techniques, and legal frameworks to maintain investigative effectiveness.</div><h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>Advanced Tips</h4><ul><li>Use virtual machines and VPNs for safe investigation environments</li><li>Automate repetitive tasks with scripts and tools where appropriate</li><li>Build and maintain a toolkit of reliable resources</li><li>Network with other investigators to share knowledge and techniques</li><li>Practice regularly to maintain and improve skills</li></ul><p>Remember that digital footprint analysis is both an art and a science. While tools and techniques are important, critical thinking and pattern recognition are equally valuable skills that develop with experience.</p>",
+      "resources": [
+        {
+          "title": "OSINT Community Forums",
+          "url": "https://www.reddit.com/r/osint/",
+          "description": "Active community for OSINT practitioners and enthusiasts"
+        },
+        {
+          "title": "OSINT Training Resources",
+          "url": "https://www.osintcurio.us/",
+          "description": "Daily OSINT challenges and learning resources"
+        },
+        {
+          "title": "Privacy Tools Directory",
+          "url": "https://privacytools.io/",
+          "description": "Comprehensive list of privacy-focused tools and services"
+        }
+      ]
     }
   ]
 }

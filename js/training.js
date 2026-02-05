@@ -746,10 +746,21 @@ function renderSection(section) {
             nextSectionButton.classList.add('opacity-50', 'cursor-not-allowed');
         }
         renderQuiz(sectionElement, section);
+    } else if (section.type === 'true-false') {
+        // True/false questions don't block progression - users can continue without answering
+        renderTrueFalse(sectionElement, section);
+    } else if (section.type === 'scenario') {
+        // Scenario questions don't block progression - users can continue without answering
+        renderScenario(sectionElement, section);
+    } else if (section.type === 'short-answer') {
+        // Short answer questions don't block progression - users can continue without answering
+        renderShortAnswer(sectionElement, section);
     } else if (section.type === 'matching') {
         renderMatching(sectionElement, section);
     } else if (section.type === 'fill-blanks') {
         renderFillBlanks(sectionElement, section);
+    } else if (section.type === 'ordering') {
+        renderOrdering(sectionElement, section);
     } else if (section.content) {
         // Regular content section
         const contentElement = document.createElement('div');
@@ -1756,6 +1767,1206 @@ function renderFillBlanks(container, section) {
     fillBlanksContainer.appendChild(resultContainer);
     
     container.appendChild(fillBlanksContainer);
+}
+
+// Render a true-false question
+function renderTrueFalse(container, section) {
+    const trueFalseContainer = document.createElement('div');
+    trueFalseContainer.className = 'true-false-element bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-8';
+    
+    // Create header
+    const trueFalseHeader = document.createElement('div');
+    trueFalseHeader.className = 'true-false-header bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 border-b border-gray-200 dark:border-gray-700';
+    trueFalseHeader.innerHTML = `<span class="flex items-center"><svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>True/False: ${section.title}</span>`;
+    trueFalseContainer.appendChild(trueFalseHeader);
+    
+    // Create body
+    const trueFalseBody = document.createElement('div');
+    trueFalseBody.className = 'true-false-body p-6';
+    
+    // Add the statement
+    const statementElement = document.createElement('div');
+    statementElement.className = 'mb-6';
+    
+    const statementText = document.createElement('p');
+    statementText.className = 'text-lg font-medium text-gray-800 dark:text-gray-200 mb-3';
+    statementText.textContent = section.statement;
+    statementElement.appendChild(statementText);
+    
+    if (section.instruction) {
+        const instruction = document.createElement('p');
+        instruction.className = 'text-gray-600 dark:text-gray-400 text-sm mb-4';
+        instruction.textContent = section.instruction;
+        statementElement.appendChild(instruction);
+    }
+    
+    trueFalseBody.appendChild(statementElement);
+    
+    // Add the true/false options
+    const optionsContainer = document.createElement('div');
+    optionsContainer.className = 'space-y-3 mb-6';
+    
+    const options = ['True', 'False'];
+    
+    options.forEach((option, index) => {
+        const optionElement = document.createElement('div');
+        optionElement.className = 'true-false-option border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600';
+        optionElement.dataset.value = option;
+        
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = `true-false-${section.title.replace(/\s+/g, '-').toLowerCase()}`;
+        input.id = `true-false-${section.title.replace(/\s+/g, '-').toLowerCase()}-${index}`;
+        input.value = option;
+        input.className = 'w-4 h-4 text-blue-600 dark:text-blue-500 border-gray-300 dark:border-gray-600 focus:ring-blue-500 dark:focus:ring-blue-400';
+        
+        // Check if this option was previously selected
+        if (userAnswers[section.title] === option) {
+            input.checked = true;
+            optionElement.classList.add('selected', 'border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
+        }
+        
+        // Add event listener to save the answer and update UI
+        input.addEventListener('change', () => {
+            if (input.checked) {
+                userAnswers[section.title] = option;
+                
+                // Update UI to show selected option
+                document.querySelectorAll(`.true-false-option[data-value]`).forEach(el => {
+                    el.classList.remove('selected', 'border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
+                    el.classList.add('border-gray-200', 'dark:border-gray-700', 'bg-gray-50', 'dark:bg-gray-700');
+                });
+                
+                optionElement.classList.add('selected', 'border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
+                optionElement.classList.remove('border-gray-200', 'dark:border-gray-700', 'bg-gray-50', 'dark:bg-gray-700');
+            }
+        });
+        
+        const label = document.createElement('label');
+        label.htmlFor = `true-false-${section.title.replace(/\s+/g, '-').toLowerCase()}-${index}`;
+        label.className = 'ml-2 flex-grow cursor-pointer';
+        label.textContent = option;
+        
+        optionElement.appendChild(input);
+        optionElement.appendChild(label);
+        
+        // Make the entire option clickable
+        optionElement.addEventListener('click', (e) => {
+            if (e.target !== input) {
+                input.checked = true;
+                input.dispatchEvent(new Event('change'));
+            }
+        });
+        
+        optionsContainer.appendChild(optionElement);
+    });
+    
+    trueFalseBody.appendChild(optionsContainer);
+    
+    // Add hints if available
+    if (section.hints && section.hints.length > 0) {
+        const hintContainer = document.createElement('div');
+        hintContainer.className = 'hint-container';
+        
+        const hintButton = document.createElement('button');
+        hintButton.className = 'hint-button';
+        hintButton.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Show Hint
+        `;
+        
+        const hintContent = document.createElement('div');
+        hintContent.className = 'hint-content hidden';
+        
+        let currentHintIndex = 0;
+        
+        hintButton.addEventListener('click', () => {
+            if (hintContent.classList.contains('hidden')) {
+                hintContent.classList.remove('hidden');
+                hintContent.textContent = section.hints[currentHintIndex];
+                hintButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    ${currentHintIndex < section.hints.length - 1 ? 'Next Hint' : 'Hide Hint'}
+                `;
+            } else {
+                if (currentHintIndex < section.hints.length - 1) {
+                    currentHintIndex++;
+                    hintContent.textContent = section.hints[currentHintIndex];
+                    hintButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        ${currentHintIndex < section.hints.length - 1 ? 'Next Hint' : 'Hide Hint'}
+                    `;
+                } else {
+                    hintContent.classList.add('hidden');
+                    currentHintIndex = 0;
+                    hintButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Show Hint
+                    `;
+                }
+            }
+        });
+        
+        hintContainer.appendChild(hintButton);
+        hintContainer.appendChild(hintContent);
+        trueFalseBody.appendChild(hintContainer);
+    }
+    
+    trueFalseContainer.appendChild(trueFalseBody);
+    
+    // Create footer
+    const trueFalseFooter = document.createElement('div');
+    trueFalseFooter.className = 'true-false-footer bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-700';
+    
+    // Add the submit button
+    const submitButton = document.createElement('button');
+    submitButton.className = 'btn btn-primary';
+    submitButton.innerHTML = `
+        <svg class="btn-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        Check Answer
+    `;
+    
+    // Add the result container
+    const resultContainer = document.createElement('div');
+    resultContainer.className = 'feedback-message hidden';
+    
+    // Add event listener to the submit button
+    submitButton.addEventListener('click', () => {
+        const selectedOption = document.querySelector(`input[name="true-false-${section.title.replace(/\s+/g, '-').toLowerCase()}"]:checked`);
+        
+        if (!selectedOption) {
+            resultContainer.className = 'feedback-message feedback-warning';
+            resultContainer.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                    <span>Please select an answer before checking.</span>
+                </div>
+            `;
+            resultContainer.classList.remove('hidden');
+            return;
+        }
+        
+        const userAnswer = selectedOption.value;
+        const isCorrect = userAnswer === (section.correctAnswer ? 'True' : 'False');
+        
+        // Update UI to show correct/incorrect options
+        document.querySelectorAll(`.true-false-option[data-value]`).forEach(el => {
+            const optionValue = el.dataset.value;
+            
+            if ((optionValue === 'True' && section.correctAnswer === true) || (optionValue === 'False' && section.correctAnswer === false)) {
+                el.classList.remove('selected', 'border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
+                el.classList.add('correct', 'border-green-500', 'dark:border-green-400', 'bg-green-50', 'dark:bg-green-900/30');
+            } else if (optionValue === userAnswer && !isCorrect) {
+                el.classList.remove('selected', 'border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
+                el.classList.add('incorrect', 'border-red-500', 'dark:border-red-400', 'bg-red-50', 'dark:bg-red-900/30');
+            }
+        });
+        
+        if (isCorrect) {
+            resultContainer.className = 'feedback-message feedback-success';
+            resultContainer.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>${section.successMessage || 'Correct!'}</span>
+                </div>
+                ${section.explanation ? `<p class="mt-2">${section.explanation}</p>` : ''}
+            `;
+            
+            // Award points if specified
+            if (section.points) {
+                const pointsElement = document.createElement('div');
+                pointsElement.className = 'mt-2 text-sm font-medium';
+                pointsElement.innerHTML = `<span class="animate-pulse">+${section.points} points</span>`;
+                resultContainer.appendChild(pointsElement);
+            }
+        } else {
+            resultContainer.className = 'feedback-message feedback-error';
+            resultContainer.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>${section.incorrectMessage || 'Incorrect. Try again!'}</span>
+                </div>
+                ${section.explanation ? `<p class="mt-2">${section.explanation}</p>` : ''}
+                <div class="mt-4 flex gap-3">
+                    <button id="retry-true-false-btn" class="px-4 py-2 bg-orange-600 dark:bg-orange-700 text-white rounded-lg hover:bg-orange-700 dark:hover:bg-orange-600 transition-colors font-medium flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Retry Question
+                    </button>
+                </div>
+            `;
+        }
+        
+        resultContainer.classList.remove('hidden');
+        
+        // Disable the submit button after answering
+        submitButton.disabled = true;
+        submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+        
+        // Add retry button functionality for incorrect answers
+        if (!isCorrect) {
+            setTimeout(() => {
+                const retryBtn = document.getElementById('retry-true-false-btn');
+                if (retryBtn) {
+                    retryBtn.addEventListener('click', () => {
+                        // Clear selection
+                        document.querySelectorAll(`input[name="true-false-${section.title.replace(/\s+/g, '-').toLowerCase()}"]`).forEach(input => {
+                            input.checked = false;
+                        });
+                        
+                        // Reset option styling
+                        document.querySelectorAll(`.true-false-option[data-value]`).forEach(el => {
+                            el.classList.remove('selected', 'correct', 'incorrect', 'border-blue-500', 'dark:border-blue-400', 'border-green-500', 'dark:border-green-400', 'border-red-500', 'dark:border-red-400', 'bg-blue-50', 'dark:bg-blue-900/30', 'bg-green-50', 'dark:bg-green-900/30', 'bg-red-50', 'dark:bg-red-900/30');
+                            el.classList.add('border-gray-200', 'dark:border-gray-700', 'bg-gray-50', 'dark:bg-gray-700');
+                        });
+                        
+                        // Reset feedback and button
+                        resultContainer.classList.add('hidden');
+                        submitButton.disabled = false;
+                        submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                    });
+                }
+            }, 0);
+        }
+        
+        // Mark answer as correct/incorrect
+        const questionKey = section.title;
+        correctAnswers[questionKey] = isCorrect;
+        
+        // Update the Next button state
+        updateNextButtonState();
+    });
+    
+    trueFalseFooter.appendChild(submitButton);
+    trueFalseContainer.appendChild(trueFalseFooter);
+    trueFalseContainer.appendChild(resultContainer);
+    
+    container.appendChild(trueFalseContainer);
+}
+
+// Render a short answer question
+function renderShortAnswer(container, section) {
+    const shortAnswerContainer = document.createElement('div');
+    shortAnswerContainer.className = 'short-answer-element bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-8';
+    
+    // Create header
+    const shortAnswerHeader = document.createElement('div');
+    shortAnswerHeader.className = 'short-answer-header bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 border-b border-gray-200 dark:border-gray-700';
+    shortAnswerHeader.innerHTML = `<span class="flex items-center"><svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>Short Answer: ${section.title}</span>`;
+    shortAnswerContainer.appendChild(shortAnswerHeader);
+    
+    // Create body
+    const shortAnswerBody = document.createElement('div');
+    shortAnswerBody.className = 'short-answer-body p-6';
+    
+    // Add the question
+    const questionElement = document.createElement('div');
+    questionElement.className = 'mb-6';
+    
+    const questionText = document.createElement('p');
+    questionText.className = 'text-lg font-medium text-gray-800 dark:text-gray-200 mb-3';
+    questionText.textContent = section.question;
+    questionElement.appendChild(questionText);
+    
+    if (section.instruction) {
+        const instruction = document.createElement('p');
+        instruction.className = 'text-gray-600 dark:text-gray-400 text-sm mb-4';
+        instruction.textContent = section.instruction;
+        questionElement.appendChild(instruction);
+    }
+    
+    shortAnswerBody.appendChild(questionElement);
+    
+    // Add the text area
+    const textAreaContainer = document.createElement('div');
+    textAreaContainer.className = 'mb-6';
+    
+    const textArea = document.createElement('textarea');
+    textArea.className = 'w-full p-4 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 resize-vertical';
+    textArea.rows = 8;
+    textArea.placeholder = 'Type your answer here...';
+    textArea.maxLength = section.maxLength || 3000;
+    
+    // Set minimum length requirement
+    if (section.minLength) {
+        textArea.minLength = section.minLength;
+    }
+    
+    // Check if this answer was previously saved
+    if (userAnswers[section.title]) {
+        textArea.value = userAnswers[section.title];
+    }
+    
+    // Add event listener to save the answer
+    textArea.addEventListener('input', () => {
+        userAnswers[section.title] = textArea.value;
+        
+        // Update character count
+        const charCount = textArea.value.length;
+        const charCountElement = document.getElementById(`char-count-${section.title.replace(/\s+/g, '-').toLowerCase()}`);
+        if (charCountElement) {
+            charCountElement.textContent = `${charCount} / ${section.maxLength || 3000} characters`;
+            
+            // Update color based on requirements
+            if (section.minLength && charCount < section.minLength) {
+                charCountElement.className = 'text-red-600 dark:text-red-400 text-sm mt-2';
+            } else {
+                charCountElement.className = 'text-gray-600 dark:text-gray-400 text-sm mt-2';
+            }
+        }
+    });
+    
+    textAreaContainer.appendChild(textArea);
+    
+    // Add character count
+    const charCountContainer = document.createElement('div');
+    charCountContainer.className = 'flex justify-between items-center';
+    
+    const charCountLabel = document.createElement('span');
+    charCountLabel.className = 'text-gray-600 dark:text-gray-400 text-sm';
+    charCountLabel.textContent = `Minimum ${section.minLength || 300} characters required`;
+    
+    const charCountElement = document.createElement('span');
+    charCountElement.id = `char-count-${section.title.replace(/\s+/g, '-').toLowerCase()}`;
+    charCountElement.className = 'text-gray-600 dark:text-gray-400 text-sm mt-2';
+    charCountElement.textContent = `${textArea.value.length} / ${section.maxLength || 3000} characters`;
+    
+    charCountContainer.appendChild(charCountLabel);
+    charCountContainer.appendChild(charCountElement);
+    
+    textAreaContainer.appendChild(charCountContainer);
+    
+    shortAnswerBody.appendChild(textAreaContainer);
+    
+    // Add key elements if available
+    if (section.keyElements && section.keyElements.length > 0) {
+        const keyElementsContainer = document.createElement('div');
+        keyElementsContainer.className = 'mb-6';
+        
+        const keyElementsTitle = document.createElement('p');
+        keyElementsTitle.className = 'text-sm font-medium text-gray-700 dark:text-gray-300 mb-2';
+        keyElementsTitle.textContent = 'Key elements to include:';
+        
+        const keyElementsList = document.createElement('ul');
+        keyElementsList.className = 'list-disc list-inside text-sm text-gray-600 dark:text-gray-400 space-y-1';
+        
+        section.keyElements.forEach(element => {
+            const listItem = document.createElement('li');
+            listItem.textContent = element;
+            keyElementsList.appendChild(listItem);
+        });
+        
+        keyElementsContainer.appendChild(keyElementsTitle);
+        keyElementsContainer.appendChild(keyElementsList);
+        
+        shortAnswerBody.appendChild(keyElementsContainer);
+    }
+    
+    // Add hints if available
+    if (section.hints && section.hints.length > 0) {
+        const hintContainer = document.createElement('div');
+        hintContainer.className = 'hint-container';
+        
+        const hintButton = document.createElement('button');
+        hintButton.className = 'hint-button';
+        hintButton.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Show Hint
+        `;
+        
+        const hintContent = document.createElement('div');
+        hintContent.className = 'hint-content hidden';
+        
+        let currentHintIndex = 0;
+        
+        hintButton.addEventListener('click', () => {
+            if (hintContent.classList.contains('hidden')) {
+                hintContent.classList.remove('hidden');
+                hintContent.textContent = section.hints[currentHintIndex];
+                hintButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    ${currentHintIndex < section.hints.length - 1 ? 'Next Hint' : 'Hide Hint'}
+                `;
+            } else {
+                if (currentHintIndex < section.hints.length - 1) {
+                    currentHintIndex++;
+                    hintContent.textContent = section.hints[currentHintIndex];
+                    hintButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        ${currentHintIndex < section.hints.length - 1 ? 'Next Hint' : 'Hide Hint'}
+                    `;
+                } else {
+                    hintContent.classList.add('hidden');
+                    currentHintIndex = 0;
+                    hintButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Show Hint
+                    `;
+                }
+            }
+        });
+        
+        hintContainer.appendChild(hintButton);
+        hintContainer.appendChild(hintContent);
+        shortAnswerBody.appendChild(hintContainer);
+    }
+    
+    shortAnswerContainer.appendChild(shortAnswerBody);
+    
+    // Create footer
+    const shortAnswerFooter = document.createElement('div');
+    shortAnswerFooter.className = 'short-answer-footer bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-700';
+    
+    // Add the submit button
+    const submitButton = document.createElement('button');
+    submitButton.className = 'btn btn-primary';
+    submitButton.innerHTML = `
+        <svg class="btn-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        Check Answer
+    `;
+    
+    // Add the result container
+    const resultContainer = document.createElement('div');
+    resultContainer.className = 'feedback-message hidden';
+    
+    // Add event listener to the submit button
+    submitButton.addEventListener('click', () => {
+        const userAnswer = textArea.value.trim();
+        
+        if (!userAnswer) {
+            resultContainer.className = 'feedback-message feedback-warning';
+            resultContainer.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                    <span>Please enter an answer before checking.</span>
+                </div>
+            `;
+            resultContainer.classList.remove('hidden');
+            return;
+        }
+        
+        if (section.minLength && userAnswer.length < section.minLength) {
+            resultContainer.className = 'feedback-message feedback-warning';
+            resultContainer.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                    <span>Your answer must be at least ${section.minLength} characters long.</span>
+                </div>
+            `;
+            resultContainer.classList.remove('hidden');
+            return;
+        }
+        
+        // For short answer questions, we provide feedback but don't block progression
+        resultContainer.className = 'feedback-message feedback-success';
+        resultContainer.innerHTML = `
+            <div class="flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span>${section.successMessage || 'Answer submitted!'}</span>
+            </div>
+            ${section.sampleAnswer ? `<p class="mt-2"><strong>Sample Answer:</strong> ${section.sampleAnswer}</p>` : ''}
+        `;
+        
+        // Award points if specified
+        if (section.points) {
+            const pointsElement = document.createElement('div');
+            pointsElement.className = 'mt-2 text-sm font-medium';
+            pointsElement.innerHTML = `<span class="animate-pulse">+${section.points} points</span>`;
+            resultContainer.appendChild(pointsElement);
+        }
+        
+        resultContainer.classList.remove('hidden');
+        
+        // Disable the submit button after submitting
+        submitButton.disabled = true;
+        submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+    });
+    
+    shortAnswerFooter.appendChild(submitButton);
+    shortAnswerContainer.appendChild(shortAnswerFooter);
+    shortAnswerContainer.appendChild(resultContainer);
+    
+    container.appendChild(shortAnswerContainer);
+}
+
+// Render an ordering exercise
+function renderOrdering(container, section) {
+    const orderingContainer = document.createElement('div');
+    orderingContainer.className = 'ordering-element bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-8';
+    
+    // Create header
+    const orderingHeader = document.createElement('div');
+    orderingHeader.className = 'ordering-header bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 border-b border-gray-200 dark:border-gray-700';
+    orderingHeader.innerHTML = `<span class="flex items-center"><svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0h.01M13 8h.01M17 8h.01M21 8a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>Ordering Exercise: ${section.title}</span>`;
+    orderingContainer.appendChild(orderingHeader);
+    
+    // Create body
+    const orderingBody = document.createElement('div');
+    orderingBody.className = 'ordering-body p-6';
+    
+    // Add the instruction
+    const instruction = document.createElement('p');
+    instruction.className = 'text-lg font-medium text-gray-800 dark:text-gray-200 mb-4';
+    instruction.textContent = section.instruction || 'Arrange the following items in the correct order by dragging and dropping.';
+    orderingBody.appendChild(instruction);
+    
+    // Create the ordering exercise
+    const orderingExercise = document.createElement('div');
+    orderingExercise.className = 'space-y-3 mb-6';
+    
+    // Get the items to order
+    const items = section.shuffle ? shuffleArray([...section.items]) : [...section.items];
+    
+    // Store the correct order for checking later
+    const correctOrder = section.correctOrder || items.map((_, index) => index);
+    
+    // Store the current order
+    let currentOrder = items.map((_, index) => index);
+    
+    // Create draggable items
+    items.forEach((item, index) => {
+        const itemElement = document.createElement('div');
+        itemElement.className = 'ordering-item bg-gray-100 dark:bg-gray-700 p-3 rounded-lg text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 transition-colors cursor-move';
+        itemElement.textContent = item;
+        itemElement.draggable = true;
+        itemElement.dataset.index = index;
+        
+        // Add drag events
+        itemElement.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', index);
+            itemElement.classList.add('dragging', 'opacity-50');
+        });
+        
+        itemElement.addEventListener('dragend', () => {
+            itemElement.classList.remove('dragging', 'opacity-50');
+        });
+        
+        // Add drop events for the item itself (for swapping)
+        itemElement.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            itemElement.classList.add('active', 'border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
+        });
+        
+        itemElement.addEventListener('dragleave', () => {
+            itemElement.classList.remove('active', 'border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
+        });
+        
+        itemElement.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const draggedIndex = parseInt(e.dataTransfer.getData('text/plain'));
+            const targetIndex = parseInt(itemElement.dataset.index);
+            
+            // Swap the items in the array
+            if (draggedIndex !== targetIndex) {
+                const draggedItem = orderingExercise.children[draggedIndex];
+                const targetItem = orderingExercise.children[targetIndex];
+                
+                if (draggedIndex < targetIndex) {
+                    orderingExercise.insertBefore(draggedItem, targetItem.nextSibling);
+                } else {
+                    orderingExercise.insertBefore(draggedItem, targetItem);
+                }
+                
+                // Update the data-index attributes
+                Array.from(orderingExercise.children).forEach((child, newIndex) => {
+                    child.dataset.index = newIndex;
+                });
+                
+                // Update current order
+                currentOrder = Array.from(orderingExercise.children).map(child => parseInt(child.dataset.originalIndex));
+            }
+            
+            itemElement.classList.remove('active', 'border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
+        });
+        
+        // Store original index
+        itemElement.dataset.originalIndex = index;
+        
+        orderingExercise.appendChild(itemElement);
+    });
+    
+    orderingBody.appendChild(orderingExercise);
+    
+    // Add hints if available
+    if (section.hints && section.hints.length > 0) {
+        const hintContainer = document.createElement('div');
+        hintContainer.className = 'hint-container';
+        
+        const hintButton = document.createElement('button');
+        hintButton.className = 'hint-button';
+        hintButton.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Show Hint
+        `;
+        
+        const hintContent = document.createElement('div');
+        hintContent.className = 'hint-content hidden';
+        
+        let currentHintIndex = 0;
+        
+        hintButton.addEventListener('click', () => {
+            if (hintContent.classList.contains('hidden')) {
+                hintContent.classList.remove('hidden');
+                hintContent.textContent = section.hints[currentHintIndex];
+                hintButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    ${currentHintIndex < section.hints.length - 1 ? 'Next Hint' : 'Hide Hint'}
+                `;
+            } else {
+                if (currentHintIndex < section.hints.length - 1) {
+                    currentHintIndex++;
+                    hintContent.textContent = section.hints[currentHintIndex];
+                    hintButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        ${currentHintIndex < section.hints.length - 1 ? 'Next Hint' : 'Hide Hint'}
+                    `;
+                } else {
+                    hintContent.classList.add('hidden');
+                    currentHintIndex = 0;
+                    hintButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Show Hint
+                    `;
+                }
+            }
+        });
+        
+        hintContainer.appendChild(hintButton);
+        hintContainer.appendChild(hintContent);
+        orderingBody.appendChild(hintContainer);
+    }
+    
+    orderingContainer.appendChild(orderingBody);
+    
+    // Create footer
+    const orderingFooter = document.createElement('div');
+    orderingFooter.className = 'ordering-footer bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-700';
+    
+    // Add the reset button
+    const resetButton = document.createElement('button');
+    resetButton.className = 'btn btn-secondary mr-2';
+    resetButton.innerHTML = `
+        <svg class="btn-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
+        Reset
+    `;
+
+    resetButton.addEventListener('click', () => {
+        // Reset the order to the original shuffled order
+        const itemsArray = Array.from(orderingExercise.children);
+        const originalItems = itemsArray.map(item => item.cloneNode(true));
+        
+        // Clear and re-append in original order
+        orderingExercise.innerHTML = '';
+        originalItems.forEach(item => {
+            orderingExercise.appendChild(item);
+        });
+        
+        // Re-add all event listeners to the reset items
+        Array.from(orderingExercise.children).forEach((item, index) => {
+            item.dataset.index = index;
+            
+            // Add drag events
+            item.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', index);
+                item.classList.add('dragging', 'opacity-50');
+            });
+            
+            item.addEventListener('dragend', () => {
+                item.classList.remove('dragging', 'opacity-50');
+            });
+            
+            // Add drop events for the item itself (for swapping)
+            item.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                item.classList.add('active', 'border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
+            });
+            
+            item.addEventListener('dragleave', () => {
+                item.classList.remove('active', 'border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
+            });
+            
+            item.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const draggedIndex = parseInt(e.dataTransfer.getData('text/plain'));
+                const targetIndex = parseInt(item.dataset.index);
+                
+                // Swap the items in the array
+                if (draggedIndex !== targetIndex) {
+                    const draggedItem = orderingExercise.children[draggedIndex];
+                    const targetItem = orderingExercise.children[targetIndex];
+                    
+                    if (draggedIndex < targetIndex) {
+                        orderingExercise.insertBefore(draggedItem, targetItem.nextSibling);
+                    } else {
+                        orderingExercise.insertBefore(draggedItem, targetItem);
+                    }
+                    
+                    // Update the data-index attributes
+                    Array.from(orderingExercise.children).forEach((child, newIndex) => {
+                        child.dataset.index = newIndex;
+                    });
+                    
+                    // Update current order
+                    currentOrder = Array.from(orderingExercise.children).map(child => parseInt(child.dataset.originalIndex));
+                }
+                
+                item.classList.remove('active', 'border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
+            });
+        });
+        
+        // Reset current order
+        currentOrder = items.map((_, index) => index);
+        
+        // Hide the result container
+        resultContainer.classList.add('hidden');
+        
+        // Enable the submit button
+        submitButton.disabled = false;
+        submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+        
+        // Reset item styling to remove any red/green colors
+        Array.from(orderingExercise.children).forEach(item => {
+            item.classList.remove('border-green-500', 'dark:border-green-400', 'bg-green-50', 'dark:bg-green-900/30');
+            item.classList.remove('border-red-500', 'dark:border-red-400', 'bg-red-50', 'dark:bg-red-900/30');
+            item.classList.add('border-gray-300', 'dark:border-gray-600', 'bg-gray-100', 'dark:bg-gray-700');
+        });
+    });
+    
+    // Add the submit button
+    const submitButton = document.createElement('button');
+    submitButton.className = 'btn btn-primary';
+    submitButton.innerHTML = `
+        <svg class="btn-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        Check Order
+    `;
+    
+    // Add the result container
+    const resultContainer = document.createElement('div');
+    resultContainer.className = 'feedback-message hidden';
+    
+    // Add event listener to the submit button
+    submitButton.addEventListener('click', () => {
+        // Get the current order
+        const currentOrder = Array.from(orderingExercise.children).map(child => parseInt(child.dataset.originalIndex));
+        
+        // Check if the order is correct
+        const isCorrect = JSON.stringify(currentOrder) === JSON.stringify(correctOrder);
+        
+        // Update the items to show correct/incorrect order
+        Array.from(orderingExercise.children).forEach((item, index) => {
+            const originalIndex = parseInt(item.dataset.originalIndex);
+            const expectedIndex = correctOrder.indexOf(originalIndex);
+            
+            if (index === expectedIndex) {
+                item.classList.remove('border-gray-300', 'dark:border-gray-600', 'bg-gray-100', 'dark:bg-gray-700');
+                item.classList.add('border-green-500', 'dark:border-green-400', 'bg-green-50', 'dark:bg-green-900/30');
+            } else {
+                item.classList.remove('border-gray-300', 'dark:border-gray-600', 'bg-gray-100', 'dark:bg-gray-700');
+                item.classList.add('border-red-500', 'dark:border-red-400', 'bg-red-50', 'dark:bg-red-900/30');
+            }
+        });
+        
+        if (isCorrect) {
+            resultContainer.className = 'feedback-message feedback-success';
+            resultContainer.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>${section.successMessage || 'Great job! The order is correct.'}</span>
+                </div>
+            `;
+            
+            // Award points if specified
+            if (section.points) {
+                const pointsElement = document.createElement('div');
+                pointsElement.className = 'mt-2 text-sm font-medium';
+                pointsElement.innerHTML = `<span class="animate-pulse">+${section.points} points</span>`;
+                resultContainer.appendChild(pointsElement);
+            }
+        } else {
+            resultContainer.className = 'feedback-message feedback-warning';
+            resultContainer.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                    <span>${section.incorrectMessage || 'The order is incorrect.'}</span>
+                </div>
+                <p class="mt-2">Try rearranging the items to match the correct sequence.</p>
+            `;
+            
+            // Show a hint if available
+            if (section.hints && section.hints.length > 0) {
+                const hintElement = document.createElement('p');
+                hintElement.className = 'mt-2 text-sm';
+                hintElement.innerHTML = `<strong>Hint:</strong> ${section.hints[0]}`;
+                resultContainer.appendChild(hintElement);
+            }
+        }
+        
+        resultContainer.classList.remove('hidden');
+        
+        // Disable the submit button after checking
+        submitButton.disabled = true;
+        submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+    });
+    
+    orderingFooter.appendChild(resetButton);
+    orderingFooter.appendChild(submitButton);
+    orderingContainer.appendChild(orderingFooter);
+    orderingContainer.appendChild(resultContainer);
+    
+    container.appendChild(orderingContainer);
+}
+
+// Render a scenario question
+function renderScenario(container, section) {
+    const scenarioContainer = document.createElement('div');
+    scenarioContainer.className = 'scenario-element bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-8';
+    
+    // Create header
+    const scenarioHeader = document.createElement('div');
+    scenarioHeader.className = 'scenario-header bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 border-b border-gray-200 dark:border-gray-700';
+    scenarioHeader.innerHTML = `<span class="flex items-center"><svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>Scenario: ${section.title}</span>`;
+    scenarioContainer.appendChild(scenarioHeader);
+    
+    // Create body
+    const scenarioBody = document.createElement('div');
+    scenarioBody.className = 'scenario-body p-6';
+    
+    // Add the scenario description
+    const scenarioElement = document.createElement('div');
+    scenarioElement.className = 'mb-6';
+    
+    const scenarioText = document.createElement('p');
+    scenarioText.className = 'text-lg font-medium text-gray-800 dark:text-gray-200 mb-3';
+    scenarioText.textContent = section.scenario;
+    scenarioElement.appendChild(scenarioText);
+    
+    if (section.instruction) {
+        const instruction = document.createElement('p');
+        instruction.className = 'text-gray-600 dark:text-gray-400 text-sm mb-4';
+        instruction.textContent = section.instruction;
+        scenarioElement.appendChild(instruction);
+    }
+    
+    scenarioBody.appendChild(scenarioElement);
+    
+    // Add the question
+    const questionElement = document.createElement('div');
+    questionElement.className = 'mb-6';
+    
+    const questionText = document.createElement('p');
+    questionText.className = 'text-lg font-medium text-gray-800 dark:text-gray-200 mb-3';
+    questionText.textContent = section.question;
+    questionElement.appendChild(questionText);
+    
+    scenarioBody.appendChild(questionElement);
+    
+    // Add the options
+    const optionsContainer = document.createElement('div');
+    optionsContainer.className = 'space-y-3 mb-6';
+    
+    // Shuffle options if specified
+    const options = section.shuffle ? shuffleArray(section.options) : section.options;
+    
+    options.forEach((option, index) => {
+        const optionElement = document.createElement('div');
+        optionElement.className = 'scenario-option border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600';
+        optionElement.dataset.value = option;
+        
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = `scenario-${section.title.replace(/\s+/g, '-').toLowerCase()}`;
+        input.id = `scenario-${section.title.replace(/\s+/g, '-').toLowerCase()}-${index}`;
+        input.value = option;
+        input.className = 'w-4 h-4 text-blue-600 dark:text-blue-500 border-gray-300 dark:border-gray-600 focus:ring-blue-500 dark:focus:ring-blue-400';
+        
+        // Check if this option was previously selected
+        if (userAnswers[section.title] === option) {
+            input.checked = true;
+            optionElement.classList.add('selected', 'border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
+        }
+        
+        // Add event listener to save the answer and update UI
+        input.addEventListener('change', () => {
+            if (input.checked) {
+                userAnswers[section.title] = option;
+                
+                // Update UI to show selected option
+                document.querySelectorAll(`.scenario-option[data-value]`).forEach(el => {
+                    el.classList.remove('selected', 'border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
+                    el.classList.add('border-gray-200', 'dark:border-gray-700', 'bg-gray-50', 'dark:bg-gray-700');
+                });
+                
+                optionElement.classList.add('selected', 'border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
+                optionElement.classList.remove('border-gray-200', 'dark:border-gray-700', 'bg-gray-50', 'dark:bg-gray-700');
+            }
+        });
+        
+        const label = document.createElement('label');
+        label.htmlFor = `scenario-${section.title.replace(/\s+/g, '-').toLowerCase()}-${index}`;
+        label.className = 'ml-2 flex-grow cursor-pointer';
+        label.textContent = option;
+        
+        optionElement.appendChild(input);
+        optionElement.appendChild(label);
+        
+        // Make the entire option clickable
+        optionElement.addEventListener('click', (e) => {
+            if (e.target !== input) {
+                input.checked = true;
+                input.dispatchEvent(new Event('change'));
+            }
+        });
+        
+        optionsContainer.appendChild(optionElement);
+    });
+    
+    scenarioBody.appendChild(optionsContainer);
+    
+    // Add hints if available
+    if (section.hints && section.hints.length > 0) {
+        const hintContainer = document.createElement('div');
+        hintContainer.className = 'hint-container';
+        
+        const hintButton = document.createElement('button');
+        hintButton.className = 'hint-button';
+        hintButton.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Show Hint
+        `;
+        
+        const hintContent = document.createElement('div');
+        hintContent.className = 'hint-content hidden';
+        
+        let currentHintIndex = 0;
+        
+        hintButton.addEventListener('click', () => {
+            if (hintContent.classList.contains('hidden')) {
+                hintContent.classList.remove('hidden');
+                hintContent.textContent = section.hints[currentHintIndex];
+                hintButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    ${currentHintIndex < section.hints.length - 1 ? 'Next Hint' : 'Hide Hint'}
+                `;
+            } else {
+                if (currentHintIndex < section.hints.length - 1) {
+                    currentHintIndex++;
+                    hintContent.textContent = section.hints[currentHintIndex];
+                    hintButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        ${currentHintIndex < section.hints.length - 1 ? 'Next Hint' : 'Hide Hint'}
+                    `;
+                } else {
+                    hintContent.classList.add('hidden');
+                    currentHintIndex = 0;
+                    hintButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Show Hint
+                    `;
+                }
+            }
+        });
+        
+        hintContainer.appendChild(hintButton);
+        hintContainer.appendChild(hintContent);
+        scenarioBody.appendChild(hintContainer);
+    }
+    
+    scenarioContainer.appendChild(scenarioBody);
+    
+    // Create footer
+    const scenarioFooter = document.createElement('div');
+    scenarioFooter.className = 'scenario-footer bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-700';
+    
+    // Add the submit button
+    const submitButton = document.createElement('button');
+    submitButton.className = 'btn btn-primary';
+    submitButton.innerHTML = `
+        <svg class="btn-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        Check Answer
+    `;
+    
+    // Add the result container
+    const resultContainer = document.createElement('div');
+    resultContainer.className = 'feedback-message hidden';
+    
+    // Add event listener to the submit button
+    submitButton.addEventListener('click', () => {
+        const selectedOption = document.querySelector(`input[name="scenario-${section.title.replace(/\s+/g, '-').toLowerCase()}"]:checked`);
+        
+        if (!selectedOption) {
+            resultContainer.className = 'feedback-message feedback-warning';
+            resultContainer.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                    <span>Please select an answer before checking.</span>
+                </div>
+            `;
+            resultContainer.classList.remove('hidden');
+            return;
+        }
+        
+        const userAnswer = selectedOption.value;
+        const isCorrect = userAnswer === section.correctAnswer;
+        
+        // Update UI to show correct/incorrect options
+        document.querySelectorAll(`.scenario-option[data-value]`).forEach(el => {
+            const optionValue = el.dataset.value;
+            
+            if (optionValue === section.correctAnswer) {
+                el.classList.remove('selected', 'border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
+                el.classList.add('correct', 'border-green-500', 'dark:border-green-400', 'bg-green-50', 'dark:bg-green-900/30');
+            } else if (optionValue === userAnswer && !isCorrect) {
+                el.classList.remove('selected', 'border-blue-500', 'dark:border-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
+                el.classList.add('incorrect', 'border-red-500', 'dark:border-red-400', 'bg-red-50', 'dark:bg-red-900/30');
+            }
+        });
+        
+        if (isCorrect) {
+            resultContainer.className = 'feedback-message feedback-success';
+            resultContainer.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>${section.successMessage || 'Correct!'}</span>
+                </div>
+                ${section.explanation ? `<p class="mt-2">${section.explanation}</p>` : ''}
+            `;
+            
+            // Award points if specified
+            if (section.points) {
+                const pointsElement = document.createElement('div');
+                pointsElement.className = 'mt-2 text-sm font-medium';
+                pointsElement.innerHTML = `<span class="animate-pulse">+${section.points} points</span>`;
+                resultContainer.appendChild(pointsElement);
+            }
+        } else {
+            resultContainer.className = 'feedback-message feedback-error';
+            resultContainer.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>${section.incorrectMessage || 'Incorrect. Try again!'}</span>
+                </div>
+                ${section.explanation ? `<p class="mt-2">${section.explanation}</p>` : ''}
+                <div class="mt-4 flex gap-3">
+                    <button id="retry-scenario-btn" class="px-4 py-2 bg-orange-600 dark:bg-orange-700 text-white rounded-lg hover:bg-orange-700 dark:hover:bg-orange-600 transition-colors font-medium flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Retry Question
+                    </button>
+                </div>
+            `;
+        }
+        
+        resultContainer.classList.remove('hidden');
+        
+        // Disable the submit button after answering
+        submitButton.disabled = true;
+        submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+        
+        // Add retry button functionality for incorrect answers
+        if (!isCorrect) {
+            setTimeout(() => {
+                const retryBtn = document.getElementById('retry-scenario-btn');
+                if (retryBtn) {
+                    retryBtn.addEventListener('click', () => {
+                        // Clear selection
+                        document.querySelectorAll(`input[name="scenario-${section.title.replace(/\s+/g, '-').toLowerCase()}"]`).forEach(input => {
+                            input.checked = false;
+                        });
+                        
+                        // Reset option styling
+                        document.querySelectorAll(`.scenario-option[data-value]`).forEach(el => {
+                            el.classList.remove('selected', 'correct', 'incorrect', 'border-blue-500', 'dark:border-blue-400', 'border-green-500', 'dark:border-green-400', 'border-red-500', 'dark:border-red-400', 'bg-blue-50', 'dark:bg-blue-900/30', 'bg-green-50', 'dark:bg-green-900/30', 'bg-red-50', 'dark:bg-red-900/30');
+                            el.classList.add('border-gray-200', 'dark:border-gray-700', 'bg-gray-50', 'dark:bg-gray-700');
+                        });
+                        
+                        // Reset feedback and button
+                        resultContainer.classList.add('hidden');
+                        submitButton.disabled = false;
+                        submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                    });
+                }
+            }, 0);
+        }
+        
+        // Mark answer as correct/incorrect
+        const questionKey = section.title;
+        correctAnswers[questionKey] = isCorrect;
+        
+        // Update the Next button state
+        updateNextButtonState();
+    });
+    
+    scenarioFooter.appendChild(submitButton);
+    scenarioContainer.appendChild(scenarioFooter);
+    scenarioContainer.appendChild(resultContainer);
+    
+    container.appendChild(scenarioContainer);
 }
 
 // Set up event listeners

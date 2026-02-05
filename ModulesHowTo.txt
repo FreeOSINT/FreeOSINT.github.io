@@ -1,0 +1,118 @@
+# OSINT Training Module JSON Schema & Authoring Guide
+VERSION: 2026-02-04-v1.2
+STATUS:  canonical reference for module creation / extension / validation
+INTENDED CONSUMERS: Grok-class LLMs, module generation agents, content review pipelines
+
+## 1. Top-Level Module Object (required keys marked *)
+
+{
+  "id"*:               string,          // kebab-case, globally unique, pattern: ^[a-z0-9]+(-[a-z0-9]+)+$
+                                         // Examples: advanced-network-infrastructure-osint, intro-malware-analysis
+  "title"*:            string,          // 40–90 chars, SEO + learner-facing
+  "description"*:      string,          // 1–4 sentences, what learner masters, ends with period
+  "difficulty"*:       enum["Beginner", "Intermediate", "Advanced"]
+  "duration"*:         integer,         // minutes, realistic estimate (45–480 typical)
+  "image"?:            string,          // relative path e.g. "images/network-map-dark.jpg"
+  "featured"?:         boolean,         // default false — homepage promotion
+  "tags"*:             array<string>,   // 5–14 items, lowercase, hyphens-ok, no duplicates
+                                         // Examples: ["dns", "certificates", "attribution", "advanced", "bgp"]
+  "sections"*:         array<Section>   // ordered — defines entire learning flow
+}
+
+## 2. Section Object Variants
+
+Every section MUST have:
+  "title"*:     string                 // concise, action-oriented or declarative
+  "content"?:   string                 // HTML — most common section type when type omitted
+
+Optional / common across types:
+  "resources"?: array<{title:string, url:string, description?:string}>
+
+### 2.1 Standard Text Section (type omitted or absent)
+{
+  "title": "...",
+  "content": "<p>...</p><ul>...</ul><div class='content-important'>...</div>",
+  "resources"?: [...]
+}
+
+HTML style guide (enforced):
+- Use <p>, <ul>/<ol>/<li>, <strong>, <em>
+- Subheadings: <h4 class='text-xl font-bold text-blue-600 mt-4 mb-2'>
+- Special boxes:
+  - <div class='content-important'>   // blue/important
+  - <div class='content-tip'>         // green/tip
+  - <div class='content-example'>     // example block
+  - <div class='content-warning'>     // red/caution
+- No <script>, <iframe>, external <img src=...> unless platform-hosted
+
+### 2.2 Interactive Section Types (type required)
+
+| type              | purpose                              | required fields besides title/type                                                                 | optional scoring / feedback fields                              | grading style         |
+|-------------------|--------------------------------------|-----------------------------------------------------------------------------------------------------|------------------------------------------------------------------|-----------------------|
+| quiz              | single correct MCQ                   | question, options:array<string>, correctAnswer:string (exact match)                                 | explanation, shuffle:boolean                                     | auto                  |
+| matching          | term ↔ definition                    | pairs:array<{term:string, definition:string}>                                                       | shuffle, successMessage, incorrectMessage                        | auto                  |
+| true-false        | T/F statement                        | statement:string, correctAnswer:boolean                                                             | explanation, successMessage, incorrectMessage                    | auto                  |
+| scenario          | realistic decision MCQ               | scenario:string, question:string, options:array<string>, correctAnswer:string                       | explanation, shuffle                                             | auto                  |
+| short-answer      | open written response                | question:string, minLength:int, maxLength:int                                                       | sampleAnswer, keyElements:array<string>, points, hints:array<string> | manual / semi-auto |
+
+
+Critical note: requiredElements should be:
+- Necessary to solution logic
+- Not overly brittle (avoid requiring exact variable names unless pedagogically essential)
+- Case-sensitive
+
+## 3. Validation Rules (AI MUST enforce when generating)
+
+1. JSON must be valid (no trailing commas, correct quoting)
+2. id matches ^[a-z][a-z0-9]+(-[a-z0-9]+)+$
+3. difficulty in enum
+4. duration 30–600 (warn if <30 or >480)
+5. tags: 5–15 unique lowercase strings, prefer 7–10
+6. sections ≥ 8 for advanced modules, ≥ 4 for beginner
+7. At least 25–40% interactive sections in advanced modules
+8. For quiz/scenario: correctAnswer MUST exactly equal one options item
+9. For short-answer: minLength ≥ 200, maxLength ≤ 4000, keyElements ≥ 4
+10. HTML content must not contain dangerous tags (<script>, <style>, onclick=...)
+
+## 4. Module Design Principles (AI reasoning checklist)
+
+When creating / extending modules, answer these internally:
+
+- Does progression go theory → example → guided practice → independent exercise → capstone?
+- Are attribution / confidence / alternative-hypothesis sections included in advanced modules?
+- Are obfuscation + detection pairs taught together?
+- Do interactive elements test higher-order thinking (analysis, synthesis, evaluation)?
+- Is total estimated time realistic (≈160 words/min reading + 2–5 min per exercise)?
+- Are tags discoverable and consistent with existing modules?
+- Does every interactive section have clear success/failure feedback?
+
+## 5. Extension Points (how to evolve schema safely)
+
+To add future section types:
+1. Choose new type string: "fill-in-blanks", "multi-select-quiz", "network-diagram", etc.
+2. Document required + optional fields in section 2 table
+3. Keep old types unchanged → backward compatible
+4. Prefer additive changes (new optional fields) over breaking ones
+
+Example future type proposal:
+{
+  "type": "artifact-analysis",
+  "artifact": { "type":"pcap"|"email"|"cert"|"header", "data":string|object },
+  "questions": array<{question:string, answerType:"short"|"multi">}>,
+  "sampleAnalysis": string
+}
+
+## 6. Recommended Module Skeleton Pattern (advanced level)
+
+1. Introduction & Mindset
+2. Core Technique 1 + exercise/quiz
+3. Core Technique 2 + exercise/quiz
+4. Advanced Variant + detection/obfuscation
+5. Cross-technique Integration
+6. Case Study
+7. Capstone Scenario / Short-answer attribution challenge
+8. Resources & Tools
+
+Use this pattern unless domain strongly justifies deviation.
+
+END OF SCHEMA — Use as strict reference when generating, validating or extending OSINT training modules.

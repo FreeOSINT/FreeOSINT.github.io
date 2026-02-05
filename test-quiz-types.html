@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Quiz Types</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f3f4f6;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .quiz-element, .true-false-element, .scenario-element {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .quiz-header, .true-false-header, .scenario-header {
+            padding: 12px 16px;
+            background-color: #eff6ff;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: bold;
+        }
+        .quiz-body, .true-false-body, .scenario-body {
+            padding: 16px;
+        }
+        .quiz-option, .true-false-option, .scenario-option {
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .quiz-option:hover, .true-false-option:hover, .scenario-option:hover {
+            background-color: #f9fafb;
+        }
+        .quiz-option.selected, .true-false-option.selected, .scenario-option.selected {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        .quiz-option.correct, .true-false-option.correct, .scenario-option.correct {
+            border-color: #10b981;
+            background-color: #ecfdf5;
+        }
+        .quiz-option.incorrect, .true-false-option.incorrect, .scenario-option.incorrect {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+        }
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .btn-primary:disabled {
+            background-color: #93c5fd;
+            cursor: not-allowed;
+        }
+        .feedback-message {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+        }
+        .feedback-success {
+            background-color: #ecfdf5;
+            border-color: #10b981;
+            color: #065f46;
+        }
+        .feedback-error {
+            background-color: #fef2f2;
+            border-color: #ef4444;
+            color: #991b1b;
+        }
+        .feedback-warning {
+            background-color: #fffbeb;
+            border-color: #f59e0b;
+            color: #92400e;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Quiz Types Implementation</h1>
+    
+    <div class="container">
+        <h2>True/False Question</h2>
+        <div id="true-false-test"></div>
+    </div>
+    
+    <div class="container">
+        <h2>Scenario Question</h2>
+        <div id="scenario-test"></div>
+    </div>
+
+    <script>
+        // Mock the userAnswers and correctAnswers objects
+        let userAnswers = {};
+        let correctAnswers = {};
+
+        // Mock shuffleArray function
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // Mock updateNextButtonState function
+        function updateNextButtonState() {
+            console.log('Next button state updated');
+        }
+
+        // Render a true-false question
+        function renderTrueFalse(container, section) {
+            const trueFalseContainer = document.createElement('div');
+            trueFalseContainer.className = 'true-false-element';
+            
+            // Create header
+            const trueFalseHeader = document.createElement('div');
+            trueFalseHeader.className = 'true-false-header';
+            trueFalseHeader.innerHTML = `<span class="flex items-center">True/False: ${section.title}</span>`;
+            trueFalseContainer.appendChild(trueFalseHeader);
+            
+            // Create body
+            const trueFalseBody = document.createElement('div');
+            trueFalseBody.className = 'true-false-body';
+            
+            // Add the statement
+            const statementElement = document.createElement('div');
+            statementElement.className = 'mb-6';
+            
+            const statementText = document.createElement('p');
+            statementText.className = 'text-lg font-medium mb-3';
+            statementText.textContent = section.statement;
+            statementElement.appendChild(statementText);
+            
+            trueFalseBody.appendChild(statementElement);
+            
+            // Add the true/false options
+            const optionsContainer = document.createElement('div');
+            optionsContainer.className = 'space-y-3 mb-6';
+            
+            const options = ['True', 'False'];
+            
+            options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'true-false-option';
+                optionElement.dataset.value = option;
+                
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = `true-false-${section.title.replace(/\s+/g, '-').toLowerCase()}`;
+                input.id = `true-false-${section.title.replace(/\s+/g, '-').toLowerCase()}-${index}`;
+                input.value = option;
+                input.className = 'w-4 h-4 mr-2';
+                
+                // Add event listener to save the answer and update UI
+                input.addEventListener('change', () => {
+                    if (input.checked) {
+                        userAnswers[section.title] = option;
+                        
+                        // Update UI to show selected option
+                        document.querySelectorAll(`.true-false-option[data-value]`).forEach(el => {
+                            el.classList.remove('selected');
+                        });
+                        
+                        optionElement.classList.add('selected');
+                    }
+                });
+                
+                const label = document.createElement('label');
+                label.htmlFor = `true-false-${section.title.replace(/\s+/g, '-').toLowerCase()}-${index}`;
+                label.className = 'ml-2 flex-grow cursor-pointer';
+                label.textContent = option;
+                
+                optionElement.appendChild(input);
+                optionElement.appendChild(label);
+                
+                // Make the entire option clickable
+                optionElement.addEventListener('click', (e) => {
+                    if (e.target !== input) {
+                        input.checked = true;
+                        input.dispatchEvent(new Event('change'));
+                    }
+                });
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            trueFalseBody.appendChild(optionsContainer);
+            
+            trueFalseContainer.appendChild(trueFalseBody);
+            
+            // Create footer
+            const trueFalseFooter = document.createElement('div');
+            trueFalseFooter.className = 'true-false-footer';
+            
+            // Add the submit button
+            const submitButton = document.createElement('button');
+            submitButton.className = 'btn btn-primary';
+            submitButton.innerHTML = 'Check Answer';
+            
+            // Add the result container
+            const resultContainer = document.createElement('div');
+            resultContainer.className = 'feedback-message hidden';
+            
+            // Add event listener to the submit button
+            submitButton.addEventListener('click', () => {
+                const selectedOption = document.querySelector(`input[name="true-false-${section.title.replace(/\s+/g, '-').toLowerCase()}"]:checked`);
+                
+                if (!selectedOption) {
+                    resultContainer.className = 'feedback-message feedback-warning';
+                    resultContainer.innerHTML = `
+                        <div class="flex items-center">
+                            <span>Please select an answer before checking.</span>
+                        </div>
+                    `;
+                    resultContainer.classList.remove('hidden');
+                    return;
+                }
+                
+                const userAnswer = selectedOption.value;
+                const isCorrect = userAnswer === (section.correctAnswer ? 'True' : 'False');
+                
+                // Update UI to show correct/incorrect options
+                document.querySelectorAll(`.true-false-option[data-value]`).forEach(el => {
+                    const optionValue = el.dataset.value;
+                    
+                    if ((optionValue === 'True' && section.correctAnswer === true) || (optionValue === 'False' && section.correctAnswer === false)) {
+                        el.classList.remove('selected');
+                        el.classList.add('correct');
+                    } else if (optionValue === userAnswer && !isCorrect) {
+                        el.classList.remove('selected');
+                        el.classList.add('incorrect');
+                    }
+                });
+                
+                if (isCorrect) {
+                    resultContainer.className = 'feedback-message feedback-success';
+                    resultContainer.innerHTML = `
+                        <div class="flex items-center">
+                            <span>Correct!</span>
+                        </div>
+                        ${section.explanation ? `<p class="mt-2">${section.explanation}</p>` : ''}
+                    `;
+                } else {
+                    resultContainer.className = 'feedback-message feedback-error';
+                    resultContainer.innerHTML = `
+                        <div class="flex items-center">
+                            <span>Incorrect. Try again!</span>
+                        </div>
+                        ${section.explanation ? `<p class="mt-2">${section.explanation}</p>` : ''}
+                    `;
+                }
+                
+                resultContainer.classList.remove('hidden');
+                
+                // Disable the submit button after answering
+                submitButton.disabled = true;
+                submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+                
+                // Mark answer as correct/incorrect
+                const questionKey = section.title;
+                correctAnswers[questionKey] = isCorrect;
+                
+                // Update the Next button state
+                updateNextButtonState();
+            });
+            
+            trueFalseFooter.appendChild(submitButton);
+            trueFalseContainer.appendChild(trueFalseFooter);
+            trueFalseContainer.appendChild(resultContainer);
+            
+            container.appendChild(trueFalseContainer);
+        }
+
+        // Render a scenario question
+        function renderScenario(container, section) {
+            const scenarioContainer = document.createElement('div');
+            scenarioContainer.className = 'scenario-element';
+            
+            // Create header
+            const scenarioHeader = document.createElement('div');
+            scenarioHeader.className = 'scenario-header';
+            scenarioHeader.innerHTML = `<span class="flex items-center">Scenario: ${section.title}</span>`;
+            scenarioContainer.appendChild(scenarioHeader);
+            
+            // Create body
+            const scenarioBody = document.createElement('div');
+            scenarioBody.className = 'scenario-body';
+            
+            // Add the scenario description
+            const scenarioElement = document.createElement('div');
+            scenarioElement.className = 'mb-6';
+            
+            const scenarioText = document.createElement('p');
+            scenarioText.className = 'text-lg font-medium mb-3';
+            scenarioText.textContent = section.scenario;
+            scenarioElement.appendChild(scenarioText);
+            
+            scenarioBody.appendChild(scenarioElement);
+            
+            // Add the question
+            const questionElement = document.createElement('div');
+            questionElement.className = 'mb-6';
+            
+            const questionText = document.createElement('p');
+            questionText.className = 'text-lg font-medium mb-3';
+            questionText.textContent = section.question;
+            questionElement.appendChild(questionText);
+            
+            scenarioBody.appendChild(questionElement);
+            
+            // Add the options
+            const optionsContainer = document.createElement('div');
+            optionsContainer.className = 'space-y-3 mb-6';
+            
+            // Shuffle options if specified
+            const options = section.shuffle ? shuffleArray(section.options) : section.options;
+            
+            options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'scenario-option';
+                optionElement.dataset.value = option;
+                
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = `scenario-${section.title.replace(/\s+/g, '-').toLowerCase()}`;
+                input.id = `scenario-${section.title.replace(/\s+/g, '-').toLowerCase()}-${index}`;
+                input.value = option;
+                input.className = 'w-4 h-4 mr-2';
+                
+                // Add event listener to save the answer and update UI
+                input.addEventListener('change', () => {
+                    if (input.checked) {
+                        userAnswers[section.title] = option;
+                        
+                        // Update UI to show selected option
+                        document.querySelectorAll(`.scenario-option[data-value]`).forEach(el => {
+                            el.classList.remove('selected');
+                        });
+                        
+                        optionElement.classList.add('selected');
+                    }
+                });
+                
+                const label = document.createElement('label');
+                label.htmlFor = `scenario-${section.title.replace(/\s+/g, '-').toLowerCase()}-${index}`;
+                label.className = 'ml-2 flex-grow cursor-pointer';
+                label.textContent = option;
+                
+                optionElement.appendChild(input);
+                optionElement.appendChild(label);
+                
+                // Make the entire option clickable
+                optionElement.addEventListener('click', (e) => {
+                    if (e.target !== input) {
+                        input.checked = true;
+                        input.dispatchEvent(new Event('change'));
+                    }
+                });
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            scenarioBody.appendChild(optionsContainer);
+            
+            scenarioContainer.appendChild(scenarioBody);
+            
+            // Create footer
+            const scenarioFooter = document.createElement('div');
+            scenarioFooter.className = 'scenario-footer';
+            
+            // Add the submit button
+            const submitButton = document.createElement('button');
+            submitButton.className = 'btn btn-primary';
+            submitButton.innerHTML = 'Check Answer';
+            
+            // Add the result container
+            const resultContainer = document.createElement('div');
+            resultContainer.className = 'feedback-message hidden';
+            
+            // Add event listener to the submit button
+            submitButton.addEventListener('click', () => {
+                const selectedOption = document.querySelector(`input[name="scenario-${section.title.replace(/\s+/g, '-').toLowerCase()}"]:checked`);
+                
+                if (!selectedOption) {
+                    resultContainer.className = 'feedback-message feedback-warning';
+                    resultContainer.innerHTML = `
+                        <div class="flex items-center">
+                            <span>Please select an answer before checking.</span>
+                        </div>
+                    `;
+                    resultContainer.classList.remove('hidden');
+                    return;
+                }
+                
+                const userAnswer = selectedOption.value;
+                const isCorrect = userAnswer === section.correctAnswer;
+                
+                // Update UI to show correct/incorrect options
+                document.querySelectorAll(`.scenario-option[data-value]`).forEach(el => {
+                    const optionValue = el.dataset.value;
+                    
+                    if (optionValue === section.correctAnswer) {
+                        el.classList.remove('selected');
+                        el.classList.add('correct');
+                    } else if (optionValue === userAnswer && !isCorrect) {
+                        el.classList.remove('selected');
+                        el.classList.add('incorrect');
+                    }
+                });
+                
+                if (isCorrect) {
+                    resultContainer.className = 'feedback-message feedback-success';
+                    resultContainer.innerHTML = `
+                        <div class="flex items-center">
+                            <span>Correct!</span>
+                        </div>
+                        ${section.explanation ? `<p class="mt-2">${section.explanation}</p>` : ''}
+                    `;
+                } else {
+                    resultContainer.className = 'feedback-message feedback-error';
+                    resultContainer.innerHTML = `
+                        <div class="flex items-center">
+                            <span>Incorrect. Try again!</span>
+                        </div>
+                        ${section.explanation ? `<p class="mt-2">${section.explanation}</p>` : ''}
+                    `;
+                }
+                
+                resultContainer.classList.remove('hidden');
+                
+                // Disable the submit button after answering
+                submitButton.disabled = true;
+                submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+                
+                // Mark answer as correct/incorrect
+                const questionKey = section.title;
+                correctAnswers[questionKey] = isCorrect;
+                
+                // Update the Next button state
+                updateNextButtonState();
+            });
+            
+            scenarioFooter.appendChild(submitButton);
+            scenarioContainer.appendChild(scenarioFooter);
+            scenarioContainer.appendChild(resultContainer);
+            
+            container.appendChild(scenarioContainer);
+        }
+
+        // Test data
+        const trueFalseSection = {
+            title: "Digital Footprint Basics",
+            statement: "Your digital footprint includes all the information about you that exists online.",
+            correctAnswer: true,
+            explanation: "This is correct. Your digital footprint encompasses all traces of your online activity."
+        };
+
+        const scenarioSection = {
+            title: "Credibility Assessment Scenario",
+            scenario: "You find a dark web forum post claiming responsibility for a major data breach.",
+            question: "Which factor most strongly increases credibility?",
+            options: [
+                "Emotional language and threats",
+                "Large volume of unrelated leaked files", 
+                "Specific technical details later corroborated externally",
+                "High forum post count"
+            ],
+            correctAnswer: "Specific technical details later corroborated externally",
+            explanation: "Corroboration and specificity outweigh reputation signals alone."
+        };
+
+        // Render the test sections
+        const trueFalseContainer = document.getElementById('true-false-test');
+        renderTrueFalse(trueFalseContainer, trueFalseSection);
+
+        const scenarioContainer = document.getElementById('scenario-test');
+        renderScenario(scenarioContainer, scenarioSection);
+    </script>
+</body>
+</html>
