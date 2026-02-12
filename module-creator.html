@@ -7,76 +7,25 @@
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/dark-mode.css">
-    <style>
-        .dark-transition {
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-    </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 min-h-screen dark-transition">
-    <header class="bg-blue-600 dark:bg-blue-900 text-white shadow-md sticky top-0 z-50 dark-transition">
-        <div class="container mx-auto px-4 py-4">
+<body class="bg-gray-100 min-h-screen">
+    <header class="bg-blue-600 text-white shadow-md">
+        <div class="container mx-auto px-4 py-6">
             <div class="flex justify-between items-center">
                 <div class="flex items-center">
-                    <h1 class="text-3xl font-bold animate-fade-in">FreeOSINT<span class="text-blue-200">.org</span></h1>
+                    <h1 class="text-3xl font-bold">FreeOSINT.org</h1>
                 </div>
-                <nav class="hidden md:block">
+                <nav>
                     <ul class="flex space-x-6">
-                        <li><a href="index.html" class="hover:text-blue-200 transition-colors duration-200">Home</a></li>
-                        <li><a href="about.html" class="hover:text-blue-200 transition-colors duration-200">About</a></li>
-                        <li><a href="ethics.html" class="hover:text-blue-200 transition-colors duration-200">Ethics</a></li>
-                        <li><a href="training.html" class="hover:text-blue-200 transition-colors duration-200">Training</a></li>
-                        <li><a href="module-creator.html" class="hover:text-blue-200 transition-colors duration-200 font-bold border-b-2 border-blue-300">Module Creator</a></li>
-                        <li><a href="docs/module-creation-guide.html" class="hover:text-blue-200 transition-colors duration-200">Documentation</a></li>
-                        <li>
-                            <button id="dark-mode-toggle" class="p-1 rounded-full hover:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none transition-colors duration-200">
-                                <svg class="w-6 h-6 sun-icon hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
-                                </svg>
-                                <svg class="w-6 h-6 moon-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                                </svg>
-                            </button>
-                        </li>
+                        <li><a href="index.html" class="hover:underline">Home</a></li>
+                        <li><a href="about.html" class="hover:underline">About Us</a></li>
+                        <li><a href="ethics.html" class="hover:underline">Ethics</a></li>
+                        <li><a href="training.html" class="hover:underline">Training</a></li>
+                        <li><a href="module-creator.html" class="hover:underline font-medium">Module Creator</a></li>
+                        <li><a href="docs/module-creation-guide.html" class="hover:underline">Documentation</a></li>
                     </ul>
                 </nav>
-                <button class="md:hidden text-white focus:outline-none" id="mobile-menu-button">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
-            <!-- Mobile menu, hidden by default -->
-            <div class="md:hidden hidden" id="mobile-menu">
-                <ul class="pt-4 pb-2 space-y-3">
-                    <li><a href="index.html" class="block hover:text-blue-200 transition-colors duration-200">Home</a></li>
-                    <li><a href="about.html" class="block hover:text-blue-200 transition-colors duration-200">About</a></li>
-                    <li><a href="ethics.html" class="block hover:text-blue-200 transition-colors duration-200">Ethics</a></li>
-                    <li><a href="training.html" class="block hover:text-blue-200 transition-colors duration-200">Training</a></li>
-                    <li><a href="module-creator.html" class="block hover:text-blue-200 transition-colors duration-200 font-medium">Module Creator</a></li>
-                    <li><a href="docs/module-creation-guide.html" class="block hover:text-blue-200 transition-colors duration-200">Documentation</a></li>
-                    <li class="flex items-center">
-                        <span class="mr-2">Dark Mode</span>
-                        <button id="mobile-dark-mode-toggle" class="p-1 rounded-full hover:bg-blue-700 focus:outline-none transition-colors duration-200">
-                            <svg class="w-5 h-5 sun-icon hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
-                            </svg>
-                            <svg class="w-5 h-5 moon-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                            </svg>
-                        </button>
-                    </li>
-                </ul>
             </div>
         </div>
     </header>
@@ -247,30 +196,8 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="js/darkmode.js"></script>
     <script src="js/main.js"></script>
     <script src="js/module-templates.js"></script>
     <script src="js/module-creator.js"></script>
-    <script>
-        // Mobile menu toggle
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', function() {
-                    mobileMenu.classList.toggle('hidden');
-                });
-            }
-            
-            // Sync mobile dark mode toggle with main toggle
-            const mobileDarkModeToggle = document.getElementById('mobile-dark-mode-toggle');
-            if (mobileDarkModeToggle) {
-                mobileDarkModeToggle.addEventListener('click', function() {
-                    document.getElementById('dark-mode-toggle').click();
-                });
-            }
-        });
-    </script>
 </body>
 </html>
